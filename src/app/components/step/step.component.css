@@ -1,0 +1,44 @@
+.radio-group {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.radio-group span {
+    margin: 1em 0;
+}
+
+.radio-group-button {
+    margin: .25em;
+}
+
+.personal-information {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/deep/ mat-checkbox.ng-touched.ng-invalid .mat-checkbox-frame {
+    border-color: #f44336;
+}
+
+.full-width {
+    flex: 1 1 100%;
+}
+
+.half-width {
+    flex: 1 1 40%;
+    max-width: 49%;
+}
+
+.marginBottomNormal {
+    margin-bottom: 1em;
+}
+
+.marginBottomSmall {
+    margin-bottom: .5em;
+}
+
+.fontSize75 {
+    font-size: .75em;
+}

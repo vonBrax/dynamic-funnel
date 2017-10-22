@@ -1,0 +1,44 @@
+.form {
+    background: #fff;
+    padding: 2em;
+}
+
+
+/*
+/deep/ div.mat-horizontal-stepper-content {
+    overflow: visible;
+}
+*/
+
+.buttons {
+    margin: 1em 0;
+}
+
+
+/*
+.personal-information {
+    display: flex;
+    flex-direction: column;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.half-width {
+    width: 49.5%;
+}
+
+.radio-group {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.radio-group span {
+    margin: 1em 0;
+}
+
+.radio-group-button {
+    margin: .25em;
+}
+*/

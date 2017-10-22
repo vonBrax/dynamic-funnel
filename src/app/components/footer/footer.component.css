@@ -1,0 +1,32 @@
+a {
+    text-decoration: none;
+    color: #e1e1e1;
+}
+
+a:hover,
+a:active,
+a:focus {
+    text-decoration: underline;
+}
+
+.footer {
+    background: #585a51;
+    color: #e1e1e1;
+    padding: 2em 0;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.svg {
+    fill: #e1e1e1;
+    max-width: 280px;
+    min-width: 180px;
+}
+
+.svg .st1 {
+    fill: #585a51;
+    opacity: .5;
+}
