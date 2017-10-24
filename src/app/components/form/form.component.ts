@@ -2,11 +2,7 @@ import {
   Component,
   OnInit,
   ViewChild,
-  AfterViewInit,
-  Input,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy
+  AfterViewInit
 } from '@angular/core';
 
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
@@ -18,7 +14,6 @@ import { FormService } from '../../services/form.service';
 
 @Component({
   selector: 'app-form',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
   providers: [Location, {provide:LocationStrategy, useClass: PathLocationStrategy}, FormService ]
@@ -28,8 +23,7 @@ export class FormComponent implements OnInit, AfterViewInit {
   formGroup: FormGroup;
   private activeStep: number = 1;
   private initDone: boolean = false;
-  private bariatric: Bariatric;
-  //private funnelData$: Observable<any>;
+  bariatric: Bariatric;
 
   get formArray() { return this.formGroup.get('formArray'); }
 
@@ -43,7 +37,6 @@ export class FormComponent implements OnInit, AfterViewInit {
     if(this.initDone) { return; }
     let url = this.location.path();
     let hasParams = /\?/.test( url );
-    //this.activeStep = this.matStepper.selectedIndex+1;
     this.activeStep = 1;
     
     if( hasParams && /step=/.test(url) ) {
@@ -61,12 +54,6 @@ export class FormComponent implements OnInit, AfterViewInit {
 
     this.formService.getJSON().subscribe(data => {
        this.bariatric = new Bariatric(data);
-      /*
-       this.formGroup = this.fb.group({
-         formArray: new FormArray([])
-       });
-       */
-
        let arr = new FormArray([]);
 
        this.bariatric.funnel.forEach((step: any,i: number) => {
@@ -84,7 +71,7 @@ export class FormComponent implements OnInit, AfterViewInit {
               group[input.field] = options;
             });
             if(step.tos) {
-              group['tos_signoff'] = ['', Validators.required];
+              group['tos_signoff'] = ['', Validators.requiredTrue];
             }
             tempObj[stepNumber] = this.fb.group(group);;
          }
@@ -95,39 +82,7 @@ export class FormComponent implements OnInit, AfterViewInit {
        });
      }, error => {
        console.log(error);
-     });
-
-    /*
-    this.formGroup = this.fb.group({
-      formArray: this.fb.array([
-        this.fb.group({
-          step1: ['', Validators.required]
-        }),
-        this.fb.group({
-          step2: ['', Validators.required]
-        }),
-        this.fb.group({
-          step3: ['', Validators.required]
-        }),
-        this.fb.group({
-          step4: ['', Validators.required]
-        }),
-        this.fb.group({
-          step5: ['', Validators.required]
-        }),
-        this.fb.group({
-          first_name: ['', Validators.required],
-          last_name: ['', Validators.required],
-          email: ['', Validators.compose([Validators.required, Validators.email]) ],
-          phone_number: ['', Validators.required],
-          tos_signoff: ['', Validators.requiredTrue],
-          additional_info: ['']
-        })
-      ])
-    });
-    */
-    //this.onChanges();
-    
+     });    
   }
 
   updateUrl(activeStep):void {

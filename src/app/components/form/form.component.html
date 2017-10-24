@@ -4,9 +4,10 @@
       (ngSubmit)="onSubmit(formGroup)"
       novalidate>
   
-  <mat-horizontal-stepper formArrayName="formArray"
+  <mat-vertical-stepper formArrayName="formArray"
                           #matStepper
-                          (click)="updateUrl(matStepper.selectedIndex+1)">
+                          (click)="updateUrl(matStepper.selectedIndex+1)"
+                          linear>
 
     <mat-step *ngFor="let step of bariatric.funnel, index as i"
               formGroupName="{{i}}"
@@ -31,81 +32,43 @@
 
     </mat-step>
 
-    <!--
-    <mat-step formGroupName="0" [stepControl]="formArray.get([0])">
-      <ng-template matStepLabel>Step 1</ng-template>
-      <app-step [stepData]="bariatric.funnel[0]" [parentGroup]="formArray.get([0])" [index]="0"></app-step>
-       <div class="buttons">
-        <button mat-raised-button matStepperNext color="primary" type="button" [disabled]="formArray.get([0]).invalid">Next</button>
-      </div>
-    </mat-step>
-
-     <mat-step formGroupName="1" [stepControl]="formArray.get([1])">
-      <ng-template matStepLabel>Step 2</ng-template>
-      <app-step [stepData]="bariatric.funnel[1]" [parentGroup]="formArray.get([1])" [index]="1"></app-step>
-       <div class="buttons">
-        <button mat-raised-button matStepperPrevious color="primary" type="button">Back</button>
-        <button mat-raised-button matStepperNext color="primary" type="button" [disabled]="formArray.get([1]).invalid">Next</button>
-      </div>
-    </mat-step>
-
-     <mat-step formGroupName="2" [stepControl]="formArray.get([2])">
-      <ng-template matStepLabel>Step 3</ng-template>
-      <app-step [stepData]="bariatric.funnel[2]" [parentGroup]="formArray.get([2])" [index]="2"></app-step>
-       <div class="buttons">
-        <button mat-raised-button matStepperPrevious color="primary" type="button">Back</button>
-        <button mat-raised-button matStepperNext color="primary" type="button" [disabled]="formArray.get([2]).invalid">Next</button>
-      </div>
-    </mat-step>
-    
-    <mat-step formGroupName="3" [stepControl]="formArray.get([3])">
-      <ng-template matStepLabel>Step 4</ng-template>
-      <app-step [stepData]="bariatric.funnel[3]" [parentGroup]="formArray.get([3])" [index]="3"></app-step>
-       <div class="buttons">
-        <button mat-raised-button matStepperPrevious color="primary" type="button">Back</button>
-        <button mat-raised-button matStepperNext color="primary" type="button" [disabled]="formArray.get([3]).invalid">Next</button>
-      </div>
-    </mat-step>
-
-    <mat-step formGroupName="4" [stepControl]="formArray.get([4])">
-      <ng-template matStepLabel>Step 5</ng-template>
-      <app-step [stepData]="bariatric.funnel[4]" [parentGroup]="formArray.get([4])" [index]="4"></app-step>
-       <div class="buttons">
-        <button mat-raised-button matStepperPrevious color="primary" type="button">Back</button>
-        <button mat-raised-button matStepperNext color="primary" type="button" [disabled]="formArray.get([4]).invalid">Next</button>
-      </div>
-    </mat-step>
-
-    <mat-step formGroupName="5" [stepControl]="formArray.get([5])">
-      <ng-template matStepLabel>Step 7</ng-template>
-      <app-step [stepData]="bariatric.funnel[10]" [parentGroup]="formArray.get([5])" [index]="5"></app-step>
-       <div class="buttons">
-        <button mat-raised-button matStepperPrevious color="primary" type="button">Back</button>
-        <button mat-raised-button matStepperNext color="primary" type="button" [disabled]="formArray.get([5]).invalid">Next</button>
-      </div>
-    </mat-step>
-    -->
-
     <mat-step>
       <ng-template matStepLabel>Review</ng-template>
       <mat-card>
           <mat-card-title>Please review your data:</mat-card-title>
           <mat-card-content>
+            <div *ngFor="let step of bariatric.funnel, index as i">
+            
+              <div *ngIf="step.question; then questionBlock; else questionsBlock"></div>
+            
+              <ng-template #questionBlock>
+                <strong>{{step.question}}</strong> {{ formGroup.value.formArray[i]['step'+(i+1)] }}
+              </ng-template>
+            
+              <ng-template #questionsBlock>
+                <div *ngFor="let field of step.questions, index as j">
+                  <strong>{{field.question}}:</strong> {{ formGroup.value.formArray[i]['step'+(i+1)][field.field] }}
+                </div>
+              </ng-template>
+            
+            </div>
+            <!--
             <p><strong>{{bariatric.funnel[1].question}}</strong> {{formGroup.value.formArray[0].step1}} </p>
             <p><strong>{{bariatric.funnel[2].question}}</strong> {{formGroup.value.formArray[1].step2}} </p>
             <p><strong>{{bariatric.funnel[3].question}}</strong> {{formGroup.value.formArray[2].step3}} </p>
             <p><strong>{{bariatric.funnel[4].question}}</strong> {{formGroup.value.formArray[3].step4}} </p>
             <p><strong>{{bariatric.funnel[5].question}}</strong> {{formGroup.value.formArray[4].step5}} </p>
+            -->
           </mat-card-content>
         </mat-card>
         <mat-card-actions>
           <button mat-raised-button matStepperPrevious color="primary" type="button">Back</button>
-          <button  mat-raised-button matStepperNext color="primary" type="button" [disabled]="formGroup.invalid">Get Fit!</button>
+          <button  mat-raised-button matStepperNext color="primary" type="submit" [disabled]="formGroup.invalid">Get Fit!</button>
         </mat-card-actions>
       </mat-step>
 
-  </mat-horizontal-stepper>
+  </mat-vertical-stepper>
 
-  <pre>{{formGroup.value | json}}</pre>
+  <!-- <pre>{{formGroup.value | json}}</pre> -->
 
 </form>

@@ -11,13 +11,13 @@
     <mat-form-field *ngFor="let field of stepData.questions" class="marginBottomSmall {{field.modifier_class}}">
       <input *ngIf="textInput(field.type)" matInput placeholder="{{field.question}}" formControlName="{{field.field}}" type="{{field.type}}">
       <textarea *ngIf="field.type === 'textarea'" matInput placeholder="{{field.question}}" formControlName="{{field.field}}"></textarea>
-      <mat-error *ngIf="parentGroup.get(childGroupName).get(field.field).invalid">{{formatErrorMessage(field.question, field.field)}}</mat-error>        
+      <mat-error>{{formatErrorMessage(field.question, field.field)}}</mat-error>
     </mat-form-field>
 
     <div *ngIf="stepData.tos">
       <mat-checkbox matInput formControlName="tos_signoff" color="primary">{{stepData.tos}}</mat-checkbox>
       <mat-error class="fontSize75"
-          *ngIf="parentGroup.get(childGroupName).get('tos_signoff').touched && parentGroup.get(childGroupName).get('tos_signoff').invalid">Check me, djo!!!</mat-error>
+          *ngIf="parentGroup.get(childGroupName).get('tos_signoff').touched && parentGroup.get(childGroupName).get('tos_signoff').invalid">You must accept our terms of service</mat-error>
     </div>
 
 </div>

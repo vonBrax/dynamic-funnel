@@ -1,6 +1,6 @@
 .form {
     background: #fff;
-    padding: 2em;
+    padding: 1em;
 }
 
 
@@ -12,6 +12,10 @@
 
 .buttons {
     margin: 1em 0;
+}
+
+.buttons button {
+    margin-top: 1em;
 }
 
 

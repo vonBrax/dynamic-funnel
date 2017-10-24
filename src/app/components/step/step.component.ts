@@ -31,15 +31,9 @@ export class StepComponent implements OnInit {
   }
 
   formatErrorMessage(question: string, el: string): string { 
-    let msg;
-    if ( this.parentGroup.get(this.childGroupName).get(el).hasError('required') ) {
-      msg = `Please tell us your ${question.toLowerCase()}`
-    } else if ( this.parentGroup.get(this.childGroupName).get(el).hasError('email') ) {
-      msg = 'Please enter a valid email address';
-    } else {
-      msg = 'Something seems wrong here...';
-    }
-    return msg;
+    return this.parentGroup.get(this.childGroupName).get(el).hasError('required') ? 'Please tell us your ' + question.toLowerCase() :
+      this.parentGroup.get(this.childGroupName).get(el).hasError('email') ? 'Please enter a valid email address' :
+        '';
   }
 
   formatQuestion(question:string): string {
@@ -47,3 +41,5 @@ export class StepComponent implements OnInit {
   }
 
 }
+
+
