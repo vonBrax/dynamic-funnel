@@ -21,11 +21,12 @@ import { FormService } from '../../services/form.service';
 export class FormComponent implements OnInit, AfterViewInit {
   
   formGroup: FormGroup;
-  private activeStep: number = 1;
+  private activeStep: number = 0;
+  private lastStep: number;
   private initDone: boolean = false;
   bariatric: Bariatric;
 
-  get formArray() { return this.formGroup.get('formArray'); }
+  get formArray() { return this.formGroup.get('formArray') as FormArray; }
 
   constructor(private fb: FormBuilder,
               private location: Location,
@@ -37,14 +38,15 @@ export class FormComponent implements OnInit, AfterViewInit {
     if(this.initDone) { return; }
     let url = this.location.path();
     let hasParams = /\?/.test( url );
-    this.activeStep = 1;
+    //this.activeStep = 0;
+    let first = this.activeStep+1;
     
     if( hasParams && /step=/.test(url) ) {
-      url = url.replace(/step=[^&]+/, 'step='+this.activeStep);
+      url = url.replace(/step=[^&]+/, 'step='+first);
     } else if (hasParams) {
-      url += '&step='+this.activeStep;
+      url += '&step='+first;
     } else {
-      url += '?step='+this.activeStep;
+      url += '?step='+first;
     }
     this.location.replaceState(url);
     this.initDone=true;
@@ -55,7 +57,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     this.formService.getJSON().subscribe(data => {
        this.bariatric = new Bariatric(data);
        let arr = new FormArray([]);
-
+       this.lastStep = this.bariatric.funnel.length - 1;
        this.bariatric.funnel.forEach((step: any,i: number) => {
          let tempObj = {};
          let stepNumber = 'step' + (i+1);
@@ -66,7 +68,7 @@ export class FormComponent implements OnInit, AfterViewInit {
             let group = {};
             step.questions.forEach(input => {
               let options = (input.type === 'email' && input.required) ? ['', Validators.compose([Validators.required, Validators.email])] :
-                input.required ? ['', Validators.required ] :
+                input.required ? [input.default || '', Validators.required ] :
                   [''];
               group[input.field] = options;
             });
@@ -80,21 +82,18 @@ export class FormComponent implements OnInit, AfterViewInit {
        this.formGroup = this.fb.group({
          formArray: arr
        });
+        this.onChanges();
      }, error => {
        console.log(error);
-     });    
+     });
+        
   }
 
   updateUrl(activeStep):void {
     if(activeStep === this.activeStep) { return };
-    this.location.replaceState(this.location.path().replace(/step=[^&]+/, 'step='+activeStep) );
+    this.location.replaceState(this.location.path().replace(/step=[^&]+/, 'step='+(activeStep+1)) );
     this.activeStep = activeStep;
-  }
-
-  getErrorMessages() {
-    return this.formArray.get([5]).get('email').hasError('required') ? 'Please tells us your email' :
-      this.formArray.get([5]).get('email').hasError('email') ? 'Please enter a valid email address' :
-        '';
+    
   }
 
   onSubmit(form:FormGroup):void {
@@ -105,6 +104,20 @@ export class FormComponent implements OnInit, AfterViewInit {
 
   onChanges():void {
     this.formGroup.valueChanges.subscribe(val => {
+      if( this.matStepper.selectedIndex === 0 || this.matStepper.selectedIndex === this.lastStep) {
+        return;
+      }
+      if ( this.formArray.controls[this.activeStep].valid) {
+        setTimeout( () => {
+          this.matStepper.next();
+          this.updateUrl(this.matStepper.selectedIndex);
+        }, 300)
+        //this.matStepper.next();
+        //let headerArr = this.matStepper._stepHeader.toArray();
+        //let label = headerArr[this.activeStep].nativeElement.children[1];
+        //console.log(label);
+      }
+      
     });
   }
 }

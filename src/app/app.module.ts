@@ -7,11 +7,15 @@ import { AppMaterialModule } from './app.material.module';
 
 //import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
 
+import { ClickOutsideDirective } from './directives/click-outside.directive';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FormComponent } from './components/form/form.component';
 import { StepComponent } from './components/step/step.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { SvgCornerComponent } from './components/svg-corner/svg-corner.component';
+import { PhoneSelectorComponent } from './components/phone-selector/phone-selector.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,10 @@ import { FooterComponent } from './components/footer/footer.component';
     HeaderComponent,
     FormComponent,
     StepComponent,
-    FooterComponent
+    FooterComponent,
+    SvgCornerComponent,
+    PhoneSelectorComponent,
+    ClickOutsideDirective
   ],
   imports: [
     BrowserModule,

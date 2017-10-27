@@ -8,7 +8,11 @@ import {
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSliderModule,
+    MatSelectModule,
+    MatButtonToggleModule,
+    MatToolbarModule
   } from '@angular/material';
 
   @NgModule({
@@ -21,7 +25,11 @@ import {
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatSliderModule,
+        MatSelectModule,
+        MatButtonToggleModule,
+        MatToolbarModule
       ],
       exports: [
         MatStepperModule,
@@ -32,7 +40,11 @@ import {
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatSliderModule,
+        MatSelectModule,
+        MatButtonToggleModule,
+        MatToolbarModule
       ]
   })
   export class AppMaterialModule {}

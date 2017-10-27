@@ -1,14 +1,32 @@
 .form {
     background: #fff;
-    padding: 1em;
+    padding-top: 1em;
 }
 
+.form__inner {
+    /* max-width: 80%; */
+}
+
+.headlineH1 {
+    margin-bottom: 1em;
+    margin-left: 20px;
+}
 
 /*
 /deep/ div.mat-horizontal-stepper-content {
     overflow: visible;
 }
 */
+
+:host /deep/ .mat-step-icon,
+:host /deep/ .mat-step-icon-not-touched  {
+    flex-shrink: 0;
+}
+:host /deep/ .mat-step-label,
+:host /deep/ .mat-radio-label {
+    text-overflow: initial;
+    white-space: normal;
+}
 
 .buttons {
     margin: 1em 0;
@@ -18,31 +36,28 @@
     margin-top: 1em;
 }
 
-
-/*
-.personal-information {
-    display: flex;
-    flex-direction: column;
+@media (min-width: 600px) {
+    .form {
+        padding-top: 2em;
+    }
+    .form__inner {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        max-width: 90%;
+        margin: 0 auto;
+    }
 }
 
-.full-width {
-    width: 100%;
+@media (min-width: 1024px) {
+    .form__inner {
+        max-width: 900px;
+        margin: 0 auto;
+    }
 }
 
-.half-width {
-    width: 49.5%;
+@media (min-width: 1200px) {
+    .form__inner {
+        max-width: 900px;
+        margin: 0 auto;
+    }
 }
-
-.radio-group {
-    display: inline-flex;
-    flex-direction: column;
-}
-
-.radio-group span {
-    margin: 1em 0;
-}
-
-.radio-group-button {
-    margin: .25em;
-}
-*/

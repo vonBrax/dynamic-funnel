@@ -1,6 +1,35 @@
+.anthropometry__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    
+}
+
+.matSliderContainer {
+    flex: 1 1 33%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    order: 0;
+}
+
+.matSliderContainer__button {
+    order: 1;
+}
+
+.u-justify--center {
+    justify-content: center;
+}
+
+.anthropometry__bmi {
+    /* flex: 1 1 50%; */
+    margin: 1em 0;    
+}
+
 .radio-group {
     display: inline-flex;
     flex-direction: column;
+    padding-top: .75em;
 }
 
 .radio-group span {
@@ -18,8 +47,13 @@
     justify-content: space-between;
 }
 
-/deep/ mat-checkbox.ng-touched.ng-invalid .mat-checkbox-frame {
+:host /deep/ .personal-information .mat-form-field-invalid ~ .checkbox-container .mat-checkbox-frame,
+:host /deep/ mat-checkbox.ng-touched.ng-invalid .mat-checkbox-frame {
     border-color: #f44336;
+}
+
+.fill-remaining-space {
+    flex: 1 1 auto;
 }
 
 .full-width {
@@ -41,4 +75,19 @@
 
 .fontSize75 {
     font-size: .75em;
+}
+
+@media (min-width: 600px ) {
+    .anthropometry__inner {
+       flex-direction: row;
+    }
+
+    .matSliderContainer__button {
+        order: 0;
+    }
+
+    .anthropometry__bmi {
+        flex-basis: 1 1 50%;
+        margin-bottom: 0;    
+    }
 }
