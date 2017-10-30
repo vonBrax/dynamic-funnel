@@ -17,6 +17,18 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SvgCornerComponent } from './components/svg-corner/svg-corner.component';
 import { PhoneSelectorComponent } from './components/phone-selector/phone-selector.component';
 
+
+import { FormParentComponent } from './components/form-parent/form-parent.component';
+import { FormStepComponent } from './components/form-parent/form-step/form-step.component';
+import { RadioComponent } from './components/form-parent/radio/radio.component';
+import { SliderComponent } from './components/form-parent/slider/slider.component';
+import { TextComponent } from './components/form-parent/text/text.component';
+import { TextareaComponent } from './components/form-parent/textarea/textarea.component';
+import { SelectComponent } from './components/form-parent/select/select.component';
+import { ButtonComponent } from './components/form-parent/button/button.component';
+import { ButtonToggleComponent } from './components/form-parent/button-toggle/button-toggle.component';
+import { CheckboxComponent } from './components/form-parent/checkbox/checkbox.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +38,17 @@ import { PhoneSelectorComponent } from './components/phone-selector/phone-select
     FooterComponent,
     SvgCornerComponent,
     PhoneSelectorComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    FormParentComponent,
+    FormStepComponent,
+    RadioComponent,
+    SliderComponent,
+    TextComponent,
+    TextareaComponent,
+    SelectComponent,
+    ButtonComponent,
+    ButtonToggleComponent,
+    CheckboxComponent
   ],
   imports: [
     BrowserModule,

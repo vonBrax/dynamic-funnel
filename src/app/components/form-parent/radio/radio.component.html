@@ -1,0 +1,5 @@
+<div [formGroup]="parentGroup">
+    <mat-radio-group class="radio-group" [formControlName]="data.name">
+        <mat-radio-button *ngFor="let answer of data.answers" color="primary" class="radio-group-button" value="{{answer}}">{{answer}}</mat-radio-button>
+    </mat-radio-group>
+</div>

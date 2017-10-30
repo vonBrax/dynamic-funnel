@@ -1,0 +1,16 @@
+<h1>FormParentComponent</h1>
+<form *ngIf="funnelData" [formGroup]="formParent">
+
+    <!-- <mat-vertical-stepper>
+  
+        <app-form-step *ngFor="let step of funnelData, index as i, last as last" (stepCreatedEvent)="addStep($event)" formGroupName="{{i}}" [childGroup]="childWrapperArray.get([i])" [data]="step"></app-form-step>
+
+    </mat-vertical-stepper> -->
+    <mat-vertical-stepper linear>
+        <mat-step *ngFor="let step of funnelData" [stepControl]="formParent.get(step.name)">
+            <ng-template matStepLabel>{{step.question || step.label}}</ng-template>
+            <app-form-step [parentGroup]="formParent" [data]="step"></app-form-step>
+        </mat-step>
+    </mat-vertical-stepper>
+    <pre>{{formParent.value | json }}</pre>
+</form>

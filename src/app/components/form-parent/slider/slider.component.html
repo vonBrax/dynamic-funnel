@@ -1,0 +1,54 @@
+<div [formGroup]="parentGroup">
+    <div *ngIf="data.headline" class="full-width marginBottomNormal">{{data.headline}}</div>
+    <div class="anthropometry__inner">
+        <div class="matSliderContainer">
+            <div class="matSliderLabel">{{data.question}}: {{ formatUnit(sliderField.value) }}</div>
+            <mat-slider formControlName="{{data.name}}" min="{{ sliderData[activeUnit].min}}" max="{{ sliderData[activeUnit].max}}" step="{{ sliderData[activeUnit].step}}" value="{{ sliderData[activeUnit].default}}" color="primary" [thumbLabel]="sliderData[activeUnit].thumbLabel"
+                [tickInterval]="sliderData[activeUnit].tickInterval" vertical #sliderField>
+            </mat-slider>
+
+            <ng-container *ngIf="data.button_toggle">
+                <app-button-toggle [parentGroup]="parentGroup" [data]="data.button_toggle" (buttonToggleEvent)="updateFormValue($event)"></app-button-toggle>
+                <!-- 
+            <mat-button-toggle-group formControlName="height_unit" (change)="updateFormValue('height')">
+                <mat-button-toggle value="cm" (click)="activeHeightUnit='cm'" (keydown)="toggleActiveHeightUnit($event)">cm</mat-button-toggle>
+                <mat-button-toggle value="in" (click)="activeHeightUnit='in'" (keydown)="toggleActiveHeightUnit($event)">in</mat-button-toggle>
+            </mat-button-toggle-group>
+ -->
+            </ng-container>
+        </div>
+
+        <!-- <div class="matSliderContainer matSliderContainer__button u-justify--center">
+        <button matStepperNext mat-fab type="button" color="primary" [disabled]="parentGroup.get(childGroupName).invalid">
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+      </div>
+
+      <div class="matSliderContainer">
+        <div class="matSliderLabel">Weight: {{ formatWeight(weightField.value) }}</div>
+        <mat-slider
+          min="{{weight[parentGroup.get(childGroupName).get('weight_unit').value].min}}"
+          max="{{weight[parentGroup.get(childGroupName).get('weight_unit').value].max}}"
+          step="{{weight[parentGroup.get(childGroupName).get('weight_unit').value].step}}"
+          value="{{weight[parentGroup.get(childGroupName).get('weight_unit').value].default}}"
+          formControlName="weight"
+          color="primary"
+          [thumbLabel]="weight[parentGroup.get(childGroupName).get('weight_unit').value].thumbLabel"
+          [tickInterval]="weight[parentGroup.get(childGroupName).get('weight_unit').value].tickInterval"
+          vertical
+          #weightField>
+        </mat-slider>
+        <mat-button-toggle-group formControlName="weight_unit" (change)="updateFormValue('weight')">
+          <mat-button-toggle value="kg" (click)="activeWeightUnit='kg'" (keydown)="toggleActiveWeightUnit($event)">kg</mat-button-toggle>
+          <mat-button-toggle value="lb" (click)="activeWeightUnit='lb'" (keydown)="toggleActiveWeightUnit($event)">lb</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <mat-toolbar color="primary" class="anthropometry__bmi">
+        <span>BMI</span>
+        <span class="fill-remaining-space"></span> 
+        <span>{{bmi}}</span>
+      </mat-toolbar> 
+ -->
+
+    </div>
+</div>

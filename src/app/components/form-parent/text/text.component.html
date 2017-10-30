@@ -1,0 +1,4 @@
+<mat-form-field [formGroup]="parentGroup" class="marginBottomSmall {{data.modifier_class}}">
+    <input matInput placeholder="{{data.question}}" formControlName="{{data.name}}" type="{{data.subtype||data.type}}">
+    <mat-error>{{selectErrorMessage()}}</mat-error>
+</mat-form-field>
