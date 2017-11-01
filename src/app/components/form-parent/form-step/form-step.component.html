@@ -1,24 +1,27 @@
 <div [formGroup]="parentGroup">
+
     <div *ngIf="data.question; else elseBlock">
-        <app-radio [parentGroup]="parentGroup " [data]="data "></app-radio>
+        <app-radio [parentGroup]="parentGroup" [data]="data" (addControlEvent)="addControl($event)"></app-radio>
     </div>
+
     <ng-template #elseBlock>
-        <ng-container *ngFor="let question of data.questions ">
-            <ng-container [ngSwitch]="question.type ">
-                <app-slider *ngSwitchCase=" 'slider' " [parentGroup]="stepGroup " [data]="question "></app-slider>
-                <app-text *ngSwitchCase=" 'text' " [parentGroup]="stepGroup " [data]="question "></app-text>
-                <app-textarea *ngSwitchCase=" 'textarea' " [parentGroup]="stepGroup " [data]="question "></app-textarea>
-                <app-checkbox *ngSwitchCase=" 'checkbox' " [parentGroup]="stepGroup " [data]="question "></app-checkbox>
-                <ng-container *ngSwitchCase=" 'button' ">
-                    <div class="matSliderContainer matSliderContainer__button u-justify--center ">
-                        <app-button [parentGroup]="stepGroup " [data]="question "></app-button>
+        <div [attr.class]="data.name">
+            <ng-container *ngFor="let question of data.questions">
+                <ng-container [ngSwitch]="question.type">
+                    <div *ngSwitchCase="'slider'" class="matSliderContainer marginBottomNormal">
+                        <app-slider [parentGroup]="stepGroup" [data]="question" (addControlEvent)="addControl($event)"></app-slider>
                     </div>
-                </ng-container>
-                <ng-container *ngSwitchDefault>
-                    <span>Default here! - {{question.type}}</span>
-                    <input [formControlName]="question.name " type="text ">
+                    <app-toolbar *ngSwitchCase="'toolbar'" [parentGroup]="stepGroup" [data]="question" (addControlEvent)="addControl($event)" class="{{question.modifier_class}}"></app-toolbar>
+                    <app-text *ngSwitchCase="'text'" [parentGroup]="stepGroup" [data]="question" (addControlEvent)="addControl($event)" class="{{question.modifier_class}}"></app-text>
+                    <app-textarea *ngSwitchCase="'textarea'" [parentGroup]="stepGroup" [data]="question" (addControlEvent)="addControl($event)" class="{{question.modifier_class}}"></app-textarea>
+                    <app-checkbox *ngSwitchCase="'checkbox'" [parentGroup]="stepGroup" [data]="question" (addControlEvent)="addControl($event)" class="{{question.modifier_class}}"></app-checkbox>
+                    <ng-container *ngSwitchCase="'button'">
+                        <div class="matSliderContainer matSliderContainer__button u-justify--center ">
+                            <app-button [parentGroup]="stepGroup " [data]="question "></app-button>
+                        </div>
+                    </ng-container>
                 </ng-container>
             </ng-container>
-        </ng-container>
+        </div>
     </ng-template>
 </div>

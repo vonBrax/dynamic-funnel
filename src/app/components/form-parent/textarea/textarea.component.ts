@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 
 @Component({
@@ -14,10 +14,18 @@ export class TextareaComponent implements OnInit {
   @Input()
   data: any;
 
+  @Output()
+  addControlEvent: EventEmitter<any> = new EventEmitter();
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-      this.parentGroup.addControl(this.data.name, this.createSingleControl(this.data.value, this.data.validators));
+      this.addControlEvent.emit({
+        name: this.data.name,
+        control: this.createSingleControl(this.data.value, this.data.validators),
+        parent: true
+      });
+      //this.parentGroup.addControl(this.data.name, this.createSingleControl(this.data.value, this.data.validators));
   }
 
   createSingleControl(val:any, rules: any): FormControl {

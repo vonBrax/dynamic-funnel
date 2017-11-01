@@ -1,4 +1,4 @@
-<div [formGroup]="parentGroup" class="checkbox-container">
+<div class="checkbox-container" [formGroup]="parentGroup">
     <mat-checkbox matInput [formControlName]="data.name" color="primary">{{data.question}}</mat-checkbox>
-    <mat-error class="fontSize75" *ngIf="parentGroup.get(data.name).invalid">{{data.error_message}}</mat-error>
+    <mat-error class="fontSize75" *ngIf="isInvalid()">{{data.error_message}}</mat-error>
 </div>

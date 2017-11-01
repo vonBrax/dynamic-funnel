@@ -1,0 +1,9 @@
+:host /deep/ .mat-form-field-invalid~.checkbox-container .mat-checkbox-frame,
+:host /deep/ mat-checkbox.ng-touched.ng-invalid .mat-checkbox-frame {
+    border-color: #f44336;
+}
+
+:host /deep/ label.mat-checkbox-layout {
+    white-space: initial;
+    font-size: 0.75em;
+}

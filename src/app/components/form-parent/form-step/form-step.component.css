@@ -1,0 +1,85 @@
+.u-justify--center {
+    justify-content: center;
+}
+
+.anthropometry {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.matSliderContainer {
+    flex: 1 1 33%;
+    /* display: flex;
+    flex-flow: column nowrap;
+    align-items: center; */
+    order: 1;
+}
+
+.matSliderContainer__button {
+    order: 2;
+    text-align: center;
+    align-self: center;
+}
+
+app-slider {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.personal_information {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+:host /deep/ .personal_information .mat-form-field-invalid~.checkbox-container .mat-checkbox-frame,
+:host /deep/ mat-checkbox.ng-touched.ng-invalid .mat-checkbox-frame {
+    border-color: #f44336;
+}
+
+.anthropometry__bmi {
+    /* flex: 1 1 50%; */
+    margin: 1em 0;
+}
+
+.personal_information .half-width {
+    max-width: 80%;
+}
+
+.personal_information .full-width {
+    max-width: 80%;
+}
+
+.flex-basis--100 {
+    flex-basis: 100%;
+}
+
+.flex-order--0 {
+    order: 0;
+}
+
+@media (min-width: 600px) {
+    .anthropometry {
+        flex-direction: row;
+    }
+    .matSliderContainer__button {
+        order: 1;
+    }
+    .anthropometry__bmi {
+        flex-basis: 1 1 50%;
+        margin-bottom: 0;
+    }
+    .personal_information {
+        flex-direction: row;
+    }
+    .personal_information .half-width {
+        max-width: 49%;
+    }
+    .personal_information .full-width {
+        max-width: 100%;
+    }
+}

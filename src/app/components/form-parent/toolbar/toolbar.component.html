@@ -1,0 +1,6 @@
+<mat-toolbar color="primary" class="anthropometry__bmi" [formGroup]="parentGroup">
+    <span>BMI</span>
+    <span class="fill-remaining-space"></span>
+    <span>{{bmi}}</span>
+    <input type="hidden" [formControlName]="data.name" [value]="bmi">
+</mat-toolbar>

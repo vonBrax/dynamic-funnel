@@ -1,0 +1,13 @@
+.radio-group {
+    display: inline-flex;
+    flex-direction: column;
+    padding-top: .75em;
+}
+
+.radio-group span {
+    margin: 1em 0;
+}
+
+.radio-group-button {
+    margin: .25em;
+}

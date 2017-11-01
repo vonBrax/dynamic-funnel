@@ -1,27 +1,35 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { BmicalculatorService } from '../../../services/bmicalculator.service';
 import { Height } from '../../../models/height';
 import { Weight } from '../../../models/weight';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-slider',
   templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.css']
+  styleUrls: ['./slider.component.css'],
+  providers: []
 })
-export class SliderComponent implements OnInit {
+export class SliderComponent implements OnInit, OnDestroy {
 
   controlName: string;
   sliderData: any;
   //activeHeightUnit: string = 'cm';
   //activeWeightUnit: string = 'kg';
   activeUnit: string;
-  unitFormControl;
+  //unitFormControl;
+
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   @Input()
   parentGroup: FormGroup;
 
   @Input()
   data: any;
+
+  @Output()
+  addControlEvent: EventEmitter<any> = new EventEmitter();
 
   get formControl() {
     return this.parentGroup.get(this.data.name) as FormControl;
@@ -32,12 +40,12 @@ export class SliderComponent implements OnInit {
     return this.parentGroup.get(this.data.name + '_unit') as FormControl;
   }
  */
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private bmiCalculator: BmicalculatorService ) {
     
    }
 
   ngOnInit() {
-    this.unitFormControl = this.data.name === 'height' ? { value: 'cm'} : {value: 'kg'};
+   // this.unitFormControl = this.data.name === 'height' ? { value: 'cm'} : {value: 'kg'};
     
     if(this.data.name === 'height' ) {
       this.sliderData = new Height();
@@ -47,8 +55,22 @@ export class SliderComponent implements OnInit {
       console.log('Could not match data for slider component...');
     }
     this.activeUnit = this.data.default;
-    console.log();
-    this.parentGroup.addControl(this.data.name, this.createSingleControl(this.sliderData[this.activeUnit].default, this.data.validators) );
+    this.addControlEvent.emit({
+      name: this.data.name,
+      control: this.createSingleControl('', this.data.validators),
+      parent: true
+    });
+    this.parentGroup.valueChanges
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(val => {
+        this.bmiCalculator.sendBMI(val);
+      }, err => console.log(err));
+    // this.sliderData[this.activeUnit].default
+    //this.parentGroup.addControl(this.data.name, this.createSingleControl(this.sliderData[this.activeUnit].default, this.data.validators) );
+  }
+
+  addControl(step) {
+    this.addControlEvent.emit(step);
   }
 
   formatHeight(val: number): string {
@@ -96,6 +118,11 @@ export class SliderComponent implements OnInit {
     this.activeUnit = val;
     obj[this.data.name] = this.sliderData[this.activeUnit].default;
     this.parentGroup.patchValue(obj);
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
   
 

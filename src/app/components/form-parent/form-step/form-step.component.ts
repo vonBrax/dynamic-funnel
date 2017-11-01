@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -14,40 +14,28 @@ export class FormStepComponent implements OnInit {
   @Input()
   data: any;
 
+  @Output()
+  addControlEvent: EventEmitter<any> = new EventEmitter();
+
   stepGroup: FormGroup;
-  //stepControl: FormControl;
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
    if(this.data.questions) {
     this.stepGroup = this.fb.group({});
-    this.parentGroup.addControl(this.data.name, this.stepGroup);
+    this.addControlEvent.emit({name: this.data.name, control: this.stepGroup});
+    //this.parentGroup.addControl(this.data.name, this.stepGroup);
     }
   }
 
-  /* createMultiControls(): FormGroup {
-    let group: FormGroup = this.fb.group({});
-    this.data.questions.forEach(question => { 
-      group.addControl(question.name, this.createSingleControl(question.validators) )
-    });
-    return group;
-  }
-
-  createSingleControl(rules: any): FormControl {
-    let validators: ValidatorFn[] = this.createValidators(rules);
-    return this.fb.control('', Validators.compose(validators)) ;
-  }
-
-  createValidators(rules: any): ValidatorFn[] {
-    if(!rules) {
-      return;
+  addControl(step: any): void {
+    if(step.parent) {
+      this.stepGroup.addControl(step.name, step.control);
+      this.addControlEvent.emit({name: this.data.name, control: this.stepGroup});
+    } else {
+      this.addControlEvent.emit(step);
     }
-    let arr = [];
-    rules.forEach(rule => {
-      arr.push(Validators[rule]);
-    });
-    return arr;
+    
   }
- */
 }

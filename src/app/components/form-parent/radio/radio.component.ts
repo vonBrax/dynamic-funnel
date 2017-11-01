@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 
 @Component({
@@ -14,13 +14,17 @@ export class RadioComponent implements OnInit {
   @Input()
   data: any;
 
+  @Output()
+  addControlEvent: EventEmitter<any> = new EventEmitter();
+
   stepControl: FormControl;
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.stepControl = this.createSingleControl(this.data.validators);
-    this.parentGroup.addControl(this.data.name,this.stepControl);
+    //this.parentGroup.addControl(this.data.name,this.stepControl);
+    this.addControlEvent.emit({name: this.data.name, control: this.stepControl});
   }
 
   createSingleControl(rules: any): FormControl {

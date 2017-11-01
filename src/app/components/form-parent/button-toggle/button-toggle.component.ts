@@ -1,19 +1,25 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms'; 
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'app-button-toggle',
   templateUrl: './button-toggle.component.html',
   styleUrls: ['./button-toggle.component.css']
 })
-export class ButtonToggleComponent implements OnInit {
+export class ButtonToggleComponent implements OnInit, OnDestroy {
 
   @Input()
   parentGroup: FormGroup;
   @Input()
   data: any;
   @Output()
-  buttonToggleEvent = new EventEmitter();
+  buttonToggleEvent: EventEmitter<MouseEvent|KeyboardEvent> = new EventEmitter();
+  @Output()
+  addControlEvent: EventEmitter<any> = new EventEmitter();
+
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   get formControl() {
     return this.parentGroup.get(this.data.name);
@@ -22,13 +28,17 @@ export class ButtonToggleComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.parentGroup.addControl(this.data.name, this.createSingleControl(this.data.validators) );
+    this.addControlEvent.emit({
+      name: this.data.name,
+      control: this.createSingleControl(this.data.default, this.data.validators),
+      parent: true
+    });
     this.onChanges();
   }
 
-  createSingleControl(rules: any): FormControl {
+  createSingleControl(val:any, rules: any): FormControl {
     let validators: ValidatorFn[] = this.createValidators(rules);
-    return this.fb.control('', Validators.compose(validators)) ;
+    return this.fb.control(val, Validators.compose(validators)) ;
   }
 
   createValidators(rules: any): ValidatorFn[] {
@@ -43,14 +53,15 @@ export class ButtonToggleComponent implements OnInit {
   }
 
   onChanges() {
-    this.formControl.valueChanges.subscribe(val => {
-      this.buttonToggleEvent.emit(val);
-    });
+    this.formControl.valueChanges
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(val => {
+        this.buttonToggleEvent.emit(val);
+      });
   }
 
-  updateFormValue(): void {
-    //this.parentGroup.patchValue({height: this.height[this.activeHeightUnit].default });
-    //this.buttonToggleEvent.emit({controlName: this.data.name, defaultValue: this.data.default});
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
-
 }

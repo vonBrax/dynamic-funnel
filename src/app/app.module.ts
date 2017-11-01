@@ -8,6 +8,7 @@ import { AppMaterialModule } from './app.material.module';
 //import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
 
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { BmicalculatorService } from './services/bmicalculator.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -24,10 +25,10 @@ import { RadioComponent } from './components/form-parent/radio/radio.component';
 import { SliderComponent } from './components/form-parent/slider/slider.component';
 import { TextComponent } from './components/form-parent/text/text.component';
 import { TextareaComponent } from './components/form-parent/textarea/textarea.component';
-import { SelectComponent } from './components/form-parent/select/select.component';
 import { ButtonComponent } from './components/form-parent/button/button.component';
 import { ButtonToggleComponent } from './components/form-parent/button-toggle/button-toggle.component';
 import { CheckboxComponent } from './components/form-parent/checkbox/checkbox.component';
+import { ToolbarComponent } from './components/form-parent/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -45,10 +46,10 @@ import { CheckboxComponent } from './components/form-parent/checkbox/checkbox.co
     SliderComponent,
     TextComponent,
     TextareaComponent,
-    SelectComponent,
     ButtonComponent,
     ButtonToggleComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +59,7 @@ import { CheckboxComponent } from './components/form-parent/checkbox/checkbox.co
     HttpClientModule,
     AppMaterialModule
   ],
-  providers: [ ],
+  providers: [ BmicalculatorService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

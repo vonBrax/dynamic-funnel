@@ -1,0 +1,13 @@
+.anthropometry__bmi {
+    /* flex: 1 1 50%; */
+    margin: 1em 0;
+}
+
+.fill-remaining-space {
+    flex: 1 1 auto;
+}
+
+input {
+    max-width: 50px;
+    text-align: right;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 
 @Component({
@@ -14,10 +14,27 @@ export class CheckboxComponent implements OnInit {
   @Input()
   data: any;
 
+  @Output()
+  addControlEvent: EventEmitter<any> = new EventEmitter();
+
+  get checkbox() {
+    return this.parentGroup.get(this.data.name);
+  }
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.parentGroup.addControl(this.data.name, this.createSingleControl(this.data.value,this.data.validators));
+    this.addControlEvent.emit({
+      name: this.data.name,
+      control: this.createSingleControl(this.data.value, this.data.validators),
+      parent: true
+    });
+
+    this.parentGroup.valueChanges.subscribe(val => {
+      console.log(this.parentGroup.valid );
+    });
+
+
   }
 
   createSingleControl(val:any, rules: any): FormControl {
@@ -34,6 +51,14 @@ export class CheckboxComponent implements OnInit {
       arr.push(Validators[rule]);
     });
     return arr;
+  }
+
+  isInvalid() {
+    if(this.checkbox.touched && this.checkbox.invalid) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
