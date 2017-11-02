@@ -9,10 +9,13 @@ import { FormGroup } from '@angular/forms';
 export class ButtonComponent implements OnInit {
 
   @Input()
-  data: any;
+  formGroup: FormGroup;
 
   @Input()
   parentGroup: FormGroup;
+
+  @Input()
+  data: any;
 
   constructor() { }
 

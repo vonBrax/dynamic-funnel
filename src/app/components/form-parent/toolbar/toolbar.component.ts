@@ -31,22 +31,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       control: this.createSingleControl('', this.data.validators),
       parent: true
     });
-    this.subscription = this.bmiCalculator.getBMI('toolbar')
+    this.subscription = this.bmiCalculator.getBMI()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(val => {
-        let newBmi = this.checkAndRound(val);
-        if(this.bmi !== newBmi) {
-          //this.parentGroup.get(this.data.name).patchValue(this.bmi);
-          this.bmi = newBmi;
+        //let newBmi = this.checkAndRound(val);
+        if(this.bmi !== val) {
+            this.bmi = val;
+            this.parentGroup.patchValue({bmi: this.bmi});
         }
-        //this.parentGroup.get(this.data.name).setValue(this.bmi);
       }, err => console.log(err));
-
-     this.parentGroup.valueChanges.takeUntil(this.ngUnsubscribe).subscribe(val => {
-       console.log(this.data.name, this.bmi);
-        this.parentGroup.get(this.data.name).setValue(this.bmi);
-     });
-    //this.parentGroup.get(this.data.name).disable({onlySelf: true, emitEvent: true});
   }
 
   createSingleControl(val:any, rules: any): FormControl {
@@ -73,6 +66,4 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
-
 }

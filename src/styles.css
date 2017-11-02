@@ -231,3 +231,7 @@ body {
     flex: 1 1 40%;
     max-width: 49%;
 }
+
+.height--200 mat-slider {
+    height: 200px;
+}

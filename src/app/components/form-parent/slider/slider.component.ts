@@ -8,19 +8,9 @@ import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'app-slider',
   templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.css'],
-  providers: []
+  styleUrls: ['./slider.component.css']
 })
 export class SliderComponent implements OnInit, OnDestroy {
-
-  controlName: string;
-  sliderData: any;
-  //activeHeightUnit: string = 'cm';
-  //activeWeightUnit: string = 'kg';
-  activeUnit: string;
-  //unitFormControl;
-
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   @Input()
   parentGroup: FormGroup;
@@ -31,22 +21,18 @@ export class SliderComponent implements OnInit, OnDestroy {
   @Output()
   addControlEvent: EventEmitter<any> = new EventEmitter();
 
+  controlName: string;
+  sliderData: any;
+  activeUnit: string;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   get formControl() {
     return this.parentGroup.get(this.data.name) as FormControl;
   }
 
-  /* get unitFormControl() {
-    console.log(this.parentGroup );
-    return this.parentGroup.get(this.data.name + '_unit') as FormControl;
-  }
- */
-  constructor(private fb: FormBuilder, private bmiCalculator: BmicalculatorService ) {
-    
-   }
+  constructor(private fb: FormBuilder, private bmiCalculator: BmicalculatorService ) { }
 
   ngOnInit() {
-   // this.unitFormControl = this.data.name === 'height' ? { value: 'cm'} : {value: 'kg'};
-    
     if(this.data.name === 'height' ) {
       this.sliderData = new Height();
     } else if (this.data.name === 'weight') {
@@ -65,8 +51,6 @@ export class SliderComponent implements OnInit, OnDestroy {
       .subscribe(val => {
         this.bmiCalculator.sendBMI(val);
       }, err => console.log(err));
-    // this.sliderData[this.activeUnit].default
-    //this.parentGroup.addControl(this.data.name, this.createSingleControl(this.sliderData[this.activeUnit].default, this.data.validators) );
   }
 
   addControl(step) {

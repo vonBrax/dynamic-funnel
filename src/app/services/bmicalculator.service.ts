@@ -5,11 +5,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class BmicalculatorService {
 
-  //height: number;
-  //height_unit: 'string';
-  //weight: number;
-  //weight_unit: 'string';
-
   private subject = new BehaviorSubject<any>(0);
 
   constructor() { }
@@ -31,7 +26,7 @@ export class BmicalculatorService {
     if(!isMixed && data.height_unit === 'in') {
       BMI *= 0.0703;
     }
-    return BMI;
+    return (isFinite(BMI) && !isNaN(BMI)) ? Math.round(BMI*100)/100 : 0;  ;
   }
 
   private toInternationalSystem(data):any {
@@ -49,11 +44,14 @@ export class BmicalculatorService {
 
 
   sendBMI(data: any) {
-    let bmi = this.calcBMI(data);
+    let copy = {};
+    Object.assign(copy, data);
+    let bmi = this.calcBMI(copy);
     this.subject.next(bmi);
+    data.bmi = bmi;
   }
 
-  getBMI(str: string): Observable<any> {
+  getBMI(): Observable<any> {
     return this.subject.asObservable();
   }
 

@@ -1,4 +1,18 @@
-<button matStepperNext mat-fab type="button" color="primary" [disabled]="parentGroup.invalid">
-  <span *ngIf="data.question">asasasas</span>
-  <mat-icon>{{data.icon}}</mat-icon>
+<ng-container [ngSwitch]="data.style">
+
+<button  *ngSwitchCase="'mat-fab'" mat-fab matStepperNext type="{{data.subtype}}" color="{{data.color || 'primary'}}" [disabled]="data.subtype === 'submit' ? formGroup.invalid : parentGroup.invalid">
+  <ng-container *ngIf="data.value">{{data.value}}</ng-container>
+  <mat-icon *ngIf="data.icon">{{data.icon}}</mat-icon>
 </button>
+
+<button  *ngSwitchCase="'mat-button'" mat-button matStepperNext type="{{data.subtype}}" color="{{data.color || 'primary'}}" [disabled]="data.subtype === 'submit' ? formGroup.invalid : parentGroup.invalid">
+  <ng-container *ngIf="data.value">{{data.value}}</ng-container>
+  <mat-icon *ngIf="data.icon">{{data.icon}}</mat-icon>
+</button>
+
+<button  *ngSwitchCase="'mat-raised-button'" mat-raised-button matStepperNext type="{{data.subtype}}" color="{{data.color || 'primary' }}" [disabled]="data.subtype === 'submit' ? formGroup.invalid : parentGroup.invalid">
+  <ng-container *ngIf="data.value">{{data.value}}</ng-container>
+  <mat-icon *ngIf="data.icon">{{data.icon}}</mat-icon>
+</button>
+
+</ng-container>

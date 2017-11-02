@@ -1,8 +1,8 @@
 import { Step } from './step';
 
 //import * as data from './bariatric.json';
-
-export class Bariatric {
+ 
+ export class Bariatric {
     funnel: Step[] = [];
 
     constructor(steps:any) {

@@ -30,9 +30,9 @@ export class CheckboxComponent implements OnInit {
       parent: true
     });
 
-    this.parentGroup.valueChanges.subscribe(val => {
+    /* this.parentGroup.valueChanges.subscribe(val => {
       console.log(this.parentGroup.valid );
-    });
+    }); */
 
 
   }

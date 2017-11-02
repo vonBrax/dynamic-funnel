@@ -15,7 +15,10 @@ export class FormStepComponent implements OnInit {
   data: any;
 
   @Output()
-  addControlEvent: EventEmitter<any> = new EventEmitter();
+  addControlEvent: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  selectOpenedOrClosedEvent: EventEmitter<any> = new EventEmitter<any>();
 
   stepGroup: FormGroup;
 
@@ -25,7 +28,6 @@ export class FormStepComponent implements OnInit {
    if(this.data.questions) {
     this.stepGroup = this.fb.group({});
     this.addControlEvent.emit({name: this.data.name, control: this.stepGroup});
-    //this.parentGroup.addControl(this.data.name, this.stepGroup);
     }
   }
 
@@ -35,7 +37,10 @@ export class FormStepComponent implements OnInit {
       this.addControlEvent.emit({name: this.data.name, control: this.stepGroup});
     } else {
       this.addControlEvent.emit(step);
-    }
-    
+    } 
+  }
+
+  selectOpenedOrClosed(status: any) {
+    this.selectOpenedOrClosedEvent.emit(status);
   }
 }

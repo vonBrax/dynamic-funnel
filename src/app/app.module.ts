@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from './app.material.module';
@@ -29,6 +29,7 @@ import { ButtonComponent } from './components/form-parent/button/button.componen
 import { ButtonToggleComponent } from './components/form-parent/button-toggle/button-toggle.component';
 import { CheckboxComponent } from './components/form-parent/checkbox/checkbox.component';
 import { ToolbarComponent } from './components/form-parent/toolbar/toolbar.component';
+import { SelectComponent } from './components/form-parent/select/select.component';
 
 @NgModule({
   declarations: [
@@ -49,13 +50,14 @@ import { ToolbarComponent } from './components/form-parent/toolbar/toolbar.compo
     ButtonComponent,
     ButtonToggleComponent,
     CheckboxComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    SelectComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     AppMaterialModule
   ],
