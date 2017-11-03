@@ -1,6 +1,6 @@
 .form {
     background: #fff;
-    padding-top: 1em;
+    padding: 1em 0;
 }
 
 .headlineH1 {
@@ -36,7 +36,7 @@
 
 @media (min-width: 600px) {
     .form {
-        padding-top: 2em;
+        padding: 2em 0;
     }
     .form__inner {
         flex-wrap: nowrap;

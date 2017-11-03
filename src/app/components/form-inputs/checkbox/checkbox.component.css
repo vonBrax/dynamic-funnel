@@ -1,0 +1,32 @@
+:host /deep/ .mat-form-field-invalid~.checkbox-container .mat-checkbox-frame,
+:host /deep/ mat-checkbox.ng-touched.ng-invalid .mat-checkbox-frame {
+    border-color: #f44336;
+}
+
+:host /deep/ label.mat-checkbox-layout {
+    font-size: 0.75em;
+    max-width: 55%;
+    text-align: justify;
+    white-space: initial;
+}
+
+:host /deep/ .mat-checkbox-inner-container {
+    margin-top: 0;
+}
+
+:host /deep/ a {
+    text-decoration: underline;
+}
+:host /deep/ a:hover,
+:host /deep/ a:focus,
+:host /deep/ a:active {
+    color: black;
+}
+
+.checkbox-container {
+    margin-bottom: 1em;
+}
+
+.mat-checkbox.ng-touched.ng-invalid .terms {
+    color: #f44336;
+}

@@ -211,6 +211,11 @@ body {
     transition: all .5s;
 }
 
+.cdk-overlay-container .mat-select-panel {
+     max-height: 290px;
+    /*  background: blue; */
+}
+
 .marginBottomNormal {
     margin-bottom: 1em;
 }

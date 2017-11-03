@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
+
 import { Subject } from 'rxjs/subject';
 import 'rxjs/add/operator/takeUntil';
 
-import { FunnelService } from '../../services/funnel.service';
 import { MatStepper } from '@angular/material';
+
+import { bariatric } from '../../models/bariatric';
 
 declare var lp;
 
@@ -13,9 +15,9 @@ declare var lp;
   selector: 'app-form-parent',
   templateUrl: './form-parent.component.html',
   styleUrls: ['./form-parent.component.css'],
-  providers: [Location, {provide:LocationStrategy, useClass: PathLocationStrategy}, FunnelService ]
+  providers: [Location, {provide:LocationStrategy, useClass: PathLocationStrategy} ]
 })
-export class FormParentComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FormParentComponent implements OnInit, OnDestroy {
 
   funnelData: any;
   formParent: FormGroup;
@@ -35,29 +37,21 @@ export class FormParentComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('ubFormContainer')
   ubFormContainer: ElementRef;
 
-  constructor(private formService: FunnelService, private fb: FormBuilder, private location: Location ) { }
+  constructor(private fb: FormBuilder, private location: Location ) { }
 
   ngOnInit() {
     this.initURL();
-    this.formService.getJSON().then( data => {
-      this.funnelData = data;
+      this.funnelData = bariatric;
       this.formParent = this.fb.group({});
-      this.lastStep = data.length;
-      data.forEach(step => {
+      this.lastStep = bariatric.length;
+      bariatric.forEach(step => {
         this.stepsArr.push(step.name);
       })
       setTimeout(() => { 
-      this.ready = true;
-      this.getUnbounceForm();
-    });
+        this.ready = true;
+        this.getUnbounceForm();
+      });
       this.onChanges();
-    }).catch(err => console.log(err) );
-  }
-
-  ngAfterViewInit() {
-    /* setTimeout(() => { 
-      this.ready = true;
-    }); */
   }
 
   addControl(step:any): void {
@@ -111,7 +105,7 @@ export class FormParentComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  createHiddenFields(form): void {
+  createHiddenFields(form: any): void {
     this.funnelData.forEach(step => {
       if(step.question) {
        this.createSingleField(step.name, form);
@@ -182,16 +176,10 @@ export class FormParentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSubmit(form:FormGroup):void {
-  
     if(form.valid) {
       this.prepareUnbounceForm(form);
       lp.jQuery(this.ubForm).submit();
-      //this.ubForm.submit();
     }
-    
-    console.log('Submiting form, sire!');
-    console.log(JSON.stringify(form.value,null,2));
-    console.log('Is valid??? --> ' + form.valid );
   }
 
   ngOnDestroy() {
