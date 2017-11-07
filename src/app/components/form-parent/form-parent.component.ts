@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, OnDestroy, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 
 import { Subject } from 'rxjs/subject';
 import 'rxjs/add/operator/takeUntil';
 
+import { MixpanelService } from '../../services/mixpanel.service';
 import { MatStepper } from '@angular/material';
 
 import { bariatric } from '../../models/bariatric';
@@ -15,10 +16,11 @@ declare var lp;
   selector: 'app-form-parent',
   templateUrl: './form-parent.component.html',
   styleUrls: ['./form-parent.component.css'],
-  providers: [Location, {provide:LocationStrategy, useClass: PathLocationStrategy} ]
+  providers: [Location, {provide:LocationStrategy, useClass: PathLocationStrategy}, MixpanelService ]
 })
 export class FormParentComponent implements OnInit, OnDestroy {
 
+  funnelName: string = 'EN.Bariatrics:1.2';
   funnelData: any;
   formParent: FormGroup;
   activeStep: number = 1;
@@ -27,6 +29,9 @@ export class FormParentComponent implements OnInit, OnDestroy {
   stepsArr: string[] = [];
   ready: boolean = false;
   isSelectClosed: boolean = true;
+  stepsCompleted: number[] = [];
+  userWentBack: boolean = false;
+  valueHasChanged: boolean = false;
 
   // To deal with observable unsubscriptions
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -37,21 +42,57 @@ export class FormParentComponent implements OnInit, OnDestroy {
   @ViewChild('ubFormContainer')
   ubFormContainer: ElementRef;
 
-  constructor(private fb: FormBuilder, private location: Location ) { }
+  constructor(private fb: FormBuilder, private location: Location, private mixpanelService: MixpanelService ) { }
 
   ngOnInit() {
     this.initURL();
       this.funnelData = bariatric;
       this.formParent = this.fb.group({});
-      this.lastStep = bariatric.length;
+      this.lastStep = bariatric.length - 1;
       bariatric.forEach(step => {
         this.stepsArr.push(step.name);
       })
       setTimeout(() => { 
         this.ready = true;
         this.getUnbounceForm();
+        this.onStepperChange();
       });
       this.onChanges();
+      this.mixpanelService.init(this.funnelName, this.stepsArr[0]);
+  }
+
+onStepperChange(): void {
+     
+     if (this.matStepper) {
+      this.matStepper.selectionChange.subscribe( val => {
+        let prev = val.previouslySelectedIndex,
+          curr = val.selectedIndex;
+        // Value from last step
+        let prevStepValue = this.formParent.get(this.stepsArr[prev]).value;
+        // If value is an object, stringify it
+        if (typeof(prevStepValue) === 'object') { prevStepValue = JSON.stringify(prevStepValue);}
+        // If going back in the steps, no need to send another event
+        if( curr < prev ) {
+          this.userWentBack = true;
+          return;
+        }
+        if ( this.userWentBack && !this.valueHasChanged ) {
+          return;
+        } else {
+          this.mixpanelService.step({
+            step: curr + 1,
+            name: this.stepsArr[curr],
+            prevStepValue: (this.funnelData[prev].question || this.funnelData[prev].label) + ' - ' + prevStepValue
+          });
+          // Save to the step completed array
+          this.stepsCompleted.push(prev);
+          if( this.activeStep - this.stepsCompleted.length === 1 ) {
+            this.userWentBack = false;
+          }
+          this.valueHasChanged = false;
+        }
+      });
+    } 
   }
 
   addControl(step:any): void {
@@ -98,6 +139,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
     this.formParent.valueChanges
       .takeUntil(this.ngUnsubscribe)
       .subscribe(val => {
+        if(this.userWentBack) { this.valueHasChanged = true; }
         if( !this.matStepper || this.matStepper.selectedIndex === 0 || this.matStepper.selectedIndex === this.lastStep) {
           return;
         }
@@ -106,6 +148,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
   }
 
   createHiddenFields(form: any): void {
+    // Create hidden fields for available steps
     this.funnelData.forEach(step => {
       if(step.question) {
        this.createSingleField(step.name, form);
@@ -118,9 +161,18 @@ export class FormParentComponent implements OnInit, OnDestroy {
         });
       }
     });
+    // Check for lp url (debugging purposes) and utm/gclid parameters in the localstorage
+    if(localStorage.getItem('jutm')) {
+      let utms = localStorage.getItem('jutm').split(',');
+      utms.forEach(utm => {
+        let [name, value] = utm.split('=');
+        this.createSingleField(name, form, null, value);
+      });
+    }
+    if(localStorage.getItem('jlp')) { this.createSingleField('jlp', form, null, localStorage.getItem('jlp')); }
   }
 
-  createSingleField(name: any, form: any, path?: any): void {
+  createSingleField(name: any, form: any, path?: any, defaultValue?: any): void {
     if(!name) {
       return;
     }
@@ -138,6 +190,9 @@ export class FormParentComponent implements OnInit, OnDestroy {
     } else {
       form.appendChild(el);
     }
+    if(defaultValue) {
+      el.value = defaultValue;
+    }
   }
 
   getUnbounceForm(): void {
@@ -145,7 +200,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
     if(this.ubForm) {
       this.createHiddenFields(this.ubForm);
     } else {
-      console.log('Unbounce form was not found....');
+      //console.log('Form was not found....');
     }
   }
 
@@ -178,8 +233,12 @@ export class FormParentComponent implements OnInit, OnDestroy {
   onSubmit(form:FormGroup):void {
     if(form.valid) {
       this.prepareUnbounceForm(form);
+      this.mixpanelService.submit(this.formParent.get(this.stepsArr[this.lastStep]).value)
       lp.jQuery(this.ubForm).submit();
+     
     }
+    //TODOS: CHECK IF WE ARE GOING TO NEED USER INFO
+    // ON TY PAGE AND SAVE IT TO LS
   }
 
   ngOnDestroy() {

@@ -5,7 +5,6 @@
 
 :host /deep/ label.mat-checkbox-layout {
     font-size: 0.75em;
-    max-width: 55%;
     text-align: justify;
     white-space: initial;
 }
@@ -29,4 +28,10 @@
 
 .mat-checkbox.ng-touched.ng-invalid .terms {
     color: #f44336;
+}
+
+@media (min-width: 600px) {
+    :host /deep/ label.mat-checkbox-layout {
+        max-width: 55%;
+    }
 }

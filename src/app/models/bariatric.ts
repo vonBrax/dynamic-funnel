@@ -3,7 +3,7 @@
  [
     {
         "name": "anthropometry",
-        "label": "Anthropometric Measurements",
+        "label": "Anthropometric measurements",
         "headline": "Please choose",
         "questions": [
             {
@@ -25,9 +25,9 @@
             {
                 "type": "button",
                 "subtype": "button",
-                "style": "mat-fab",
+                "style": "mat-raised-button",
                 "color": "primary",
-                "icon": "arrow_downward",
+                "value": "NEXT",
                 "modifier_class": "matSliderContainer matSliderContainer__button u-justify--center"
             },
             {
@@ -187,7 +187,7 @@
         "name": "gender",
         "type": "radio",
         "validators": ["required"],
-        "question": "What is your gender",
+        "question": "What is your gender?",
         "answers": [
             "Female",
             "Male"
@@ -204,17 +204,6 @@
             "31-45",
             "46-65",
             "65 and over"
-        ]
-    },
-     {
-        "name": "contact",
-        "type": "radio",
-        "validators": null,
-        "question": "How can we get in touch?",
-        "answers": [
-            "Phone",
-            "Email",
-            "Both"
         ]
     },
     {

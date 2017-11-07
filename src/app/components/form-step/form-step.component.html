@@ -8,8 +8,11 @@
     </div>
 
     <ng-template #elseBlock>
+        <div *ngIf="data.headline">{{data.headline}}</div>
         <div [attr.class]="data.name">
+            
             <ng-container *ngFor="let question of data.questions">
+                
                 <ng-container [ngSwitch]="question.type">
                     <div *ngSwitchCase="'slider'" class="matSliderContainer marginBottomNormal">
                         <app-slider [parentGroup]="stepGroup" [data]="question" (addControlEvent)="addControl($event)" class="{{question.modifier_class}}"></app-slider>

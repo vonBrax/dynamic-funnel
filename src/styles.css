@@ -216,6 +216,10 @@ body {
     /*  background: blue; */
 }
 
+h1 {
+    font-size: 2em;
+}
+
 .marginBottomNormal {
     margin-bottom: 1em;
 }
