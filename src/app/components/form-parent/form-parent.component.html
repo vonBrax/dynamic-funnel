@@ -1,14 +1,45 @@
-<form *ngIf="funnelData" [formGroup]="formParent" class="form" (ngSubmit)="onSubmit(formParent)">
-    <div class="form__inner">
-        <h1 class="headlineH1"> This is a headline </h1>
-        <mat-vertical-stepper (click)="updateUrl(matStepper.selectedIndex)" #matStepper linear>
-            <mat-step *ngFor="let step of funnelData" [stepControl]="getStep(step.name)">
-                <ng-template matStepLabel>{{step.question || step.label}}</ng-template>
-                <app-form-step [parentGroup]="formParent" [data]="step" (addControlEvent)="addControl($event)" (selectOpenedOrClosedEvent)="setSelectStatus($event)"></app-form-step>
-            </mat-step>
-        </mat-vertical-stepper>
-         <!-- <pre>{{formParent.value | json }}</pre>  -->
+<div class="center-content main">
+    
+    <div class="how-it-works">
+        
+        <div class="column">
+            <h3 class="title"><span>01</span> FREE PHONE CONSULTATION</h3>
+            <div class="body">Learn everything there is to know about weight loss, our doctors and your options</div>
+        </div> 
+        <div class="column">
+            <h3 class="title"><span>02</span> RECEIVE FREE QUOTE</h3>
+            <div class="body">We'll send you a free, personal quote so you'll know exactly what's included</div>
+        </div> 
+        <div class="column">
+            <h3 class="title"><span>03</span> BOOK, SIT BACK AND RELAX</h3>
+            <div class="body">If you decide to book, your personal health manager will make sure you're well prepared. We will never charge extra for our services</div>
+        </div>
     </div>
-</form>
 
-<div #ubFormContainer [attr.id]="'ubFormContainer'"></div>
+    <form *ngIf="funnelData" [formGroup]="formParent" (ngSubmit)="onSubmit(formParent)">
+       
+        <div *ngIf="hasTopForm">
+            <app-form-hero [parentGroup]="formParent" [data]="topFormData" (addControlEvent)="addControl($event)" (goToFirstStepEvent)="goToFirstStep()"></app-form-hero>
+        </div>
+       
+        <div class="form__inner">
+            <div class="headline-box">
+            <h1 class="headlineH1" #firstStep>Find out which weight loss method is right for you</h1>
+            <h2>Fast, free and confidential.</h2>
+            </div>
+            <mat-vertical-stepper (click)="updateUrl(matStepper.selectedIndex)" #matStepper>
+                <ng-container *ngFor="let step of funnelData">
+                <mat-step  *ngIf="step.field === 'step'" [stepControl]="getStep(step.name)">
+                    
+                    <ng-template matStepLabel>{{step.question || step.label}}</ng-template>
+                    <app-form-step [parentGroup]="formParent" [data]="step" (addControlEvent)="addControl($event)" (selectOpenedOrClosedEvent)="setSelectStatus($event)"></app-form-step>
+                    
+                </mat-step>
+                </ng-container>
+
+            </mat-vertical-stepper>
+               <pre>{{formParent.value | json }}</pre>    
+        </div>
+    </form>
+    <div #ubFormContainer [attr.id]="'ubFormContainer'"></div>
+</div>

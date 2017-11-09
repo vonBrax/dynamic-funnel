@@ -1,0 +1,29 @@
+.form-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.field-wrapper {
+    max-width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    width: 60%;
+}
+
+app-text{
+    max-width: 120px;
+}
+
+.select-field {
+    max-width: 40px;
+}
+
+mat-card mat-card-header mat-card-title {
+    font-size: 1em;
+    margin-bottom: 1.5em;
+}
+
+mat-card mat-card-header mat-card-subtitle {
+    font-size: .75em;
+}

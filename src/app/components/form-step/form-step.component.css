@@ -1,3 +1,8 @@
+.headline {
+    margin-bottom: 1em;
+    margin-top: .5em;
+}
+
 .u-justify--center {
     justify-content: center;
 }

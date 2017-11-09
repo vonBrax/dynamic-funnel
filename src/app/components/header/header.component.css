@@ -2,7 +2,7 @@
     background-color: #f7d91d;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     width: 100%;
-    /* border-bottom-right-radius: 50px; */
+    border-bottom-right-radius: 50px; 
     position: relative;
     padding: 1em 0;
     box-shadow: 0 0 20px rgba(0,0,0,.1); 
@@ -10,8 +10,8 @@
 
 .header__inner {
     height: 100%;
-    max-width: 80%;
-    margin: 0 20px;
+   /*  max-width: 80%;
+    margin: 0 20px; */
     /* position: relative; */
     display: flex;
     justify-content: center;
@@ -63,12 +63,12 @@
     .header__inner {
         flex-wrap: nowrap;
         justify-content: space-between;
-        max-width: 90%;
-        margin: 0 auto;
+       /*  max-width: 90%;
+        margin: 0 auto; */
     }
 }
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
     .header__inner {
         max-width: 900px;
         margin: 0 auto;
@@ -81,3 +81,4 @@
         margin: 0 auto;
     }
 }
+ */

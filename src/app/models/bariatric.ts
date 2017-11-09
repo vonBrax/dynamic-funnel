@@ -1,7 +1,7 @@
 
- export const bariatric =
+ export const bariatric: any =
  [
-    {
+    /* {
         "name": "anthropometry",
         "label": "Anthropometric measurements",
         "headline": "Please choose",
@@ -55,7 +55,105 @@
             }
            
         ]
+    }, */
+    {
+        "hero_banner": {
+            "headline": "Your Weight Loss Journey",
+            "values": [
+                {
+                    "title": "Affordable",
+                    "description": "Find the right option for you"
+                },
+                 {
+                    "title": "High quality",
+                    "description": "The best doctors pre-selected for you"
+                },
+                 {
+                    "title": "Safe",
+                    "description": "We'll guide you every step of the way"
+                }
+            ]
+        }
     },
+    { 
+        "name": "anthropometry",
+        "label": "anthropometry",
+        "type": "form_hero",
+        "headline": "Find out which weight loss method is right for you:",
+        "subtitle": "Please fill in all fields below",
+        "button_value": "Find out",
+        "questions": [
+             {
+                "name": "height",
+                "type": "text",
+                "subtype": "number",
+                "validators": ["required"],
+                "question": "My height",
+                "unit_values": ["cm", "in"],
+                "default_unit": "cm",
+                "error_message": "Please tells us your height"
+             },
+             {
+                "name": "weight",
+                "type": "text",
+                "subtype": "number",
+                "validators": ["required"],
+                "question": "My weight",
+                "unit_values": ["kg", "lb"],
+                "default_unit": "kg",
+                "error_message": "Please tell us your weight"
+             },
+            {
+                "name": "target_weight",
+                "type": "text",
+                "subtype": "number",
+                "validators": ["required"],
+                "question": "My target weight",
+                "unit_values": ["kg", "lb"],
+                "default_unit": "kg",
+                "error_message": "Please tell us your target weight"
+             }
+        ]
+    },
+    { 
+        "name": "anthropometry",
+        "label": "Anthropometric measurements",
+        "field": "step",
+        "button_value": "NEXT",
+        "questions": [
+             {
+                "name": "height",
+                "type": "text",
+                "subtype": "number",
+                "validators": ["required"],
+                "question": "My height",
+                "unit_values": ["cm", "in"],
+                "default_unit": "cm",
+                "error_message": "Please tells us your height"
+             },
+             {
+                "name": "weight",
+                "type": "text",
+                "subtype": "number",
+                "validators": ["required"],
+                "question": "My weight",
+                "unit_values": ["kg", "lb"],
+                "default_unit": "kg",
+                "error_message": "Please tell us your weight"
+             },
+            {
+                "name": "target_weight",
+                "type": "text",
+                "subtype": "number",
+                "validators": ["required"],
+                "question": "My target weight",
+                "unit_values": ["kg", "lb"],
+                "default_unit": "kg",
+                "error_message": "Please tell us your target weight"
+             }
+        ]
+    },
+/* 
     {
         "name": "how_long_surgery",
         "type": "radio",
@@ -67,8 +165,9 @@
             "Only recently",
             "This is new to me"
         ]
-    },
-    {
+    }, */
+    {   
+        "field": "step",
         "name": "how_long_overweight",
         "type": "radio",
         "validators": ["required"],
@@ -80,7 +179,8 @@
             "I only gained weight recently"
         ]
     },
-    {
+    {   
+        "field": "step",
         "name": "procedures",
         "type": "radio",
         "validators": ["required"],
@@ -92,6 +192,7 @@
         ]
     },
     {
+        "field": "step",
         "name": "other_methods",
         "type": "radio",
         "validators": ["required"],
@@ -104,6 +205,7 @@
         ]
     },
     {
+        "field": "step",
         "name": "discussed_with_doctor",
         "type": "radio",
         "validators": ["required"] ,
@@ -113,7 +215,8 @@
             "No"
         ]
     },
-    {
+    {   
+        "field": "step",
         "name": "familial_history",
         "type": "radio",
         "validators": ["required"],
@@ -123,7 +226,8 @@
             "No"
         ]
     },
-    {
+    {   
+        "field": "step",
         "name": "snacker",
         "type": "radio",
         "validators": ["required"],
@@ -133,7 +237,8 @@
             "No"
         ]
     },
-    {
+    {   
+        "field": "step",
         "name": "volume_eater",
         "type": "radio",
         "validators": ["required"],
@@ -143,7 +248,8 @@
             "No"
         ]
     },
-    {
+    {   
+        "field": "step",
         "name": "more_important",
         "type": "radio",
         "validators": ["required"],
@@ -155,7 +261,8 @@
             "Lowest wait time"
         ]
     },
-    {
+    {   
+        "field": "step",
         "name": "comorbidities",
         "type": "select",
         "multiple": true,
@@ -171,7 +278,8 @@
             "No"
         ]
     },
-    {
+    {   
+        "field": "step",
         "name": "insurance",
         "type": "radio",
         "validators": ["required"],
@@ -183,7 +291,8 @@
             "I don't know"
         ]
     },
-    {
+    {   
+        "field": "step",
         "name": "gender",
         "type": "radio",
         "validators": ["required"],
@@ -194,6 +303,7 @@
         ]
     },
     {
+        "field": "step",
         "name": "age",
         "type": "radio",
         "validators": ["required"],
@@ -206,7 +316,8 @@
             "65 and over"
         ]
     },
-    {
+    {   
+        "field": "step",
         "name": "personal_information",
         "label": "Personal Information",
         "headline": "Please fill in your personal data",

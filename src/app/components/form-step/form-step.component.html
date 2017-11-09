@@ -8,7 +8,7 @@
     </div>
 
     <ng-template #elseBlock>
-        <div *ngIf="data.headline">{{data.headline}}</div>
+        <div *ngIf="data.headline" class="headline">{{data.headline}}</div>
         <div [attr.class]="data.name">
             
             <ng-container *ngFor="let question of data.questions">

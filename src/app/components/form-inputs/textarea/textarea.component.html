@@ -1,3 +1,4 @@
 <mat-form-field [formGroup]="parentGroup" class="marginBottomSmall {{data.modifier_class}}">
     <textarea matInput placeholder="{{data.question}}" formControlName="{{data.name}}"></textarea>
+    <mat-hint *ngIf="data.hint">{{data.hint}}</mat-hint>
 </mat-form-field>

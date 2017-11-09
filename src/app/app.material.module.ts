@@ -10,35 +10,27 @@ import {
     MatSliderModule,
     MatSelectModule,
     MatButtonToggleModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatCardModule
   } from '@angular/material';
 
+  const materialImports = [
+        MatStepperModule,
+        MatButtonModule,
+        MatRadioModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatSliderModule,
+        MatSelectModule,
+        MatButtonToggleModule,
+        MatToolbarModule,
+        MatCardModule
+      ];
+
   @NgModule({
-    imports: [
-        MatStepperModule,
-        MatButtonModule,
-        MatRadioModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatSliderModule,
-        MatSelectModule,
-        MatButtonToggleModule,
-        MatToolbarModule
-      ],
-      exports: [
-        MatStepperModule,
-        MatButtonModule,
-        MatRadioModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatSliderModule,
-        MatSelectModule,
-        MatButtonToggleModule,
-        MatToolbarModule
-      ]
+    imports: materialImports,
+    exports: materialImports
   })
   export class AppMaterialModule {}

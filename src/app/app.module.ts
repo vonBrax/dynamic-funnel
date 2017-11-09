@@ -26,6 +26,8 @@ import { ButtonToggleComponent } from './components/form-inputs/button-toggle/bu
 import { CheckboxComponent } from './components/form-inputs/checkbox/checkbox.component';
 import { ToolbarComponent } from './components/form-inputs/toolbar/toolbar.component';
 import { SelectComponent } from './components/form-inputs/select/select.component';
+import { HeroComponent } from './components/hero/hero.component';
+import { FormHeroComponent } from './components/form-hero/form-hero.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { SelectComponent } from './components/form-inputs/select/select.componen
     CheckboxComponent,
     ToolbarComponent,
     SelectComponent,
+    HeroComponent,
+    FormHeroComponent,
   ],
   imports: [
     BrowserModule,

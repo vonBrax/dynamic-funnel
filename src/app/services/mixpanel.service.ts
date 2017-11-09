@@ -42,6 +42,8 @@ export class MixpanelService {
         prevStepValue: '',
         name: name
       });
+    
+   
   }
 
   checkUserID(): string {
@@ -108,16 +110,15 @@ export class MixpanelService {
         '$phone': phone_number
     });
     try {
-        let cl = JSON.stringify({
+        let cl = {
             first_name: first_name,
             last_name: last_name,
             email: email,
             phone_number: phone_number
-        });
-        //cl = btoa(cl);
-        window.localStorage.setItem('jmData', cl);
+        };
+        localStorage.setItem('jmData', JSON.stringify(cl));
     } catch (err) {
-        this.errorMessage.push(err.toString);
+        this.errorMessage.push(err.toString());
     }
     mixpanel.track('Lead Generated', {
         'Page Variant': this.pageName || 'Unknown',
