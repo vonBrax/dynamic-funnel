@@ -87,6 +87,7 @@ export class MixpanelService {
       }
       // Set Event properties for each step of the funnel
       var evtProp = ({
+          'Funnel': this.funnel,
           'Page Variant': this.pageName || 'Unknown',
           'Step': 'Step ' + step,
           'Previous Step': prevStepValue,

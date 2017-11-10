@@ -3,9 +3,10 @@
     background-position: center center;
     background-size: cover; 
     background-repeat: no-repeat;
-    height: 250px;
+    /* height: 250px; */
     margin-top: -50px;
     color: #fff;
+    padding: 2em 0;
     
 }
 
@@ -14,33 +15,76 @@
     align-items:center;
     justify-content: space-between;
     height: 100%;
-    padding-top: 3.5em;
+    padding-top: 3em;
 }
 
 .hero__values {
     /* font-size: 1.25em; */
     text-align: center;
-    width: 100%;
+    /* width: 100%; */
+    flex: 1 1 50%;
+    align-self: flex-start;
 }
 
 .hero__values h1 {
+    margin-bottom: 1em;
+    font-size: 2em;
+}
+
+.hero__values h2 {
     font-size: 1.5em;
 }
 
 .hero__value {
-    margin-bottom: .5em;
-    font-size: 1em;
+    margin: 1em 0;
 }
 
-.padding-left--medium {
-    padding-left: 1.5em;
+app-form-hero {
+    flex: 0 0 350px;
 }
-
 
 mat-icon {
-    vertical-align: bottom;
+    vertical-align: middle;
 }
 
+@media (min-width: 600px) {
+
+    .show--mobile {
+        display: none;
+    }
+
+    .hero {
+        padding: 3em 0;
+    }
+
+    .hero__values {
+        text-align: left;
+    }
+    .hero__values h1 {
+        margin-bottom: 1em;
+        font-size: 3em;
+    }
+
+    .hero__values h2 {
+        font-size: 2em;
+    }
+
+    .hero__value {
+        margin: 1.5em 0;
+    }
+    .padding-left--large {
+        padding-left: 2em;
+    }
+}
+
+@media (max-width: 599px) {
+    app-form-hero {
+        display: none;
+    }
+}
+
+
+/* 
 
 @media (min-width: 600px) {
     .hero {
@@ -53,7 +97,7 @@ mat-icon {
 
     .hero__values {
         text-align: left;
-        max-width: 40%;
+         max-width: 40%; 
     }
 
     .hero__value {
@@ -63,7 +107,7 @@ mat-icon {
 
 @media(min-width: 804px) {
     .hero__values {
-         max-width: 45%;
+          max-width: 45%; 
      }
     .hero__values h1 {
         margin-bottom: .5em;
@@ -77,7 +121,7 @@ mat-icon {
 
 @media (min-width: 992px) {
      .hero__values {
-         max-width: 45%;
+          max-width: 45%; 
          padding-top: 1em;
      }
     .hero__values h1 {
@@ -93,7 +137,7 @@ mat-icon {
     .hero__values h1 {
         margin-bottom: 1.5em;
     }
-}
+} */
 
 /*Responsive background image media query rules*/
 @media all and (orientation: landscape) {

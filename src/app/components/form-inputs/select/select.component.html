@@ -1,6 +1,7 @@
 <mat-form-field [formGroup]="parentGroup" class="select-container">
-    <mat-select placeholder="Please select" [formControlName]="data.name" multiple="{{data.multiple}}" (onOpen)="selectOpened()" (onClose)="selectClosed()" >
+    <mat-select placeholder="{{data.placeholder}}" [formControlName]="data.name" multiple="{{data.multiple}}" (onOpen)="selectOpened()" (onClose)="selectClosed()" >
       <mat-option *ngFor="let answer of data.answers" [value]="answer">{{answer}}</mat-option>
     </mat-select>
      <mat-error >{{data.error_message}}</mat-error>
   </mat-form-field>
+    

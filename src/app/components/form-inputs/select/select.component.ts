@@ -11,13 +11,12 @@ export class SelectComponent implements OnInit {
 
   @Input()
   parentGroup: FormGroup;
-
   @Input()
   data: any;
-
+  @Input()
+  isGroup: boolean;
   @Output()
   addControlEvent: EventEmitter<any> = new EventEmitter<any>();
-
   @Output()
   selectOpenedOrClosedEvent: EventEmitter<any> = new EventEmitter<any>();
 
@@ -27,7 +26,7 @@ export class SelectComponent implements OnInit {
 
   ngOnInit() {
     this.stepControl = Utils.createSingleControl('',this.data.validators);
-    this.addControlEvent.emit({name: this.data.name, control: this.stepControl});
+    this.addControlEvent.emit({name: this.data.name, control: this.stepControl, parent: this.isGroup });
   }
 
   selectOpened() {

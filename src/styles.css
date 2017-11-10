@@ -227,6 +227,14 @@ h1 {
     font-size: 2em;
 }
 
+.marginTopNormal {
+    margin-top: 1em;
+}
+
+.marginTopSmall {
+    margin-top: .5em;
+}
+
 .marginBottomNormal {
     margin-bottom: 1em;
 }
@@ -255,7 +263,7 @@ h1 {
     max-width: 1100px;
     margin: 0 auto;
 }
-@media (min-width: 400px) {
+@media (min-width: 600px) {
     .center-content {
         margin: 0 2em;
     }

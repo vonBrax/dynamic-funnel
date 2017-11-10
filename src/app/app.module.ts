@@ -6,6 +6,7 @@ import { AppMaterialModule } from './app.material.module';
 
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { BmiCalculatorService } from './services/bmi-calculator.service';
+import { FormSyncService } from './services/form-sync.service';
 import { HtmlPipe } from './models/html.pipe';
 
 import { AppComponent } from './app.component';
@@ -59,7 +60,7 @@ import { FormHeroComponent } from './components/form-hero/form-hero.component';
     FormsModule,
     AppMaterialModule
   ],
-  providers: [ BmiCalculatorService ],
+  providers: [ BmiCalculatorService, FormSyncService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

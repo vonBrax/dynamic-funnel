@@ -7,6 +7,7 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/map';
 
 import { MixpanelService } from '../../services/mixpanel.service';
+import { FormSyncService } from '../../services/form-sync.service';
 import { MatStepper } from '@angular/material';
 
 import { bariatric } from '../../models/bariatric';
@@ -29,7 +30,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
   funnelData: any;
   formParent: FormGroup;
   activeStep: number = 1;
-  lastStep: number;
+  lastStep: number = -1;
   ubForm: any;
   stepsArr: string[] = [];
   ready: boolean = false;
@@ -53,24 +54,21 @@ export class FormParentComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private location: Location,
-    private mixpanelService: MixpanelService
+    private mixpanelService: MixpanelService,
+    private formSyncService: FormSyncService
   ) {}
 
   ngOnInit() {
     this.funnelData = bariatric;
     this.formParent = this.fb.group({});
-    // Last step needs to be -2, since the first step
-    // in the funnel is not part of the matstepper,
-    // thus is not taken into account
-    this.lastStep = bariatric.length - 2;
-
     bariatric.forEach(step => {
-      if( step.type === 'form_hero' ) {
+      /* if( step.type === 'form_hero' ) {
         this.hasTopForm = true;
         this.topFormData = step;
-      }
-      if(!step.hero) {
+      } */
+      if(step.field === 'step' ) {
         this.stepsArr.push(step.name);
+        this.lastStep++;
       }
     });
 
@@ -79,6 +77,13 @@ export class FormParentComponent implements OnInit, OnDestroy {
       this.getUnbounceForm();
       this.initURL();
       this.onStepperChange();
+      this.formSyncService.dataFlow.subscribe(val => {
+        if (val === 'go to first step') {
+          this.goToFirstStep();
+          return;
+        }
+        this.formParent.get('anthropometry').setValue(val);
+      });
     });
     this.onChanges();
     this.mixpanelService.init(this.funnelName, this.stepsArr[0]);
@@ -163,10 +168,14 @@ export class FormParentComponent implements OnInit, OnDestroy {
        this.location.replaceState(url);
     }
     this.firstStep.nativeElement.scrollIntoView({behavior: 'smooth', block:'start'});
+    if(this.formParent.get(this.stepsArr[0]).valid) {
+      this.moveToNextStep();
+    }
   }
 
   initURL(): void {
-    let url = this.location.path();
+  
+    /* let url = this.location.path();
     let hasParams = /\?/.test( url );
     
     if( /step=/.test(url) ) {
@@ -175,7 +184,21 @@ export class FormParentComponent implements OnInit, OnDestroy {
         url = url.replace('&', '?');
       }
       this.location.replaceState(url);
+    } */
+
+    let url = this.location.path();
+    let hasParams = /\?/.test( url );
+    let first = this.activeStep;
+    
+    if( hasParams && /step=/.test(url) ) {
+      url = url.replace(/step=[^&]+/, 'step='+first);
+    } else if (hasParams) {
+      url += '&step='+first;
+    } else {
+      url += '?step='+first;
     }
+    this.location.replaceState(url);
+
 
 
     if(!hasParams) {
@@ -189,6 +212,8 @@ export class FormParentComponent implements OnInit, OnDestroy {
       this.createSingleField(_pairs[0], this.ubForm, null, _pairs[1]);
     });
     this.createSingleField('jlp', this.ubForm, url);
+
+
   }
 
   moveToNextStep(): void {
@@ -196,8 +221,8 @@ export class FormParentComponent implements OnInit, OnDestroy {
     let currPos = window.scrollY;
     if ( this.formParent.get(this.stepsArr[i]).valid  && this.isSelectClosed) {
       setTimeout( () => {
-        this.matStepper.next();
         this.updateUrl(i + 1);
+        this.matStepper.next();
         this.scrollToStep(i, i + 1)
       }, 300)
     }
@@ -208,8 +233,8 @@ export class FormParentComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(val => {
         if(this.userWentBack) { this.valueHasChanged = true; }
-        if( val.anthropometry.originatedFromHero || !this.matStepper ||  /* this.activeStep === 1  || */  this.matStepper.selectedIndex === this.lastStep ) {
-          val.anthropometry.originatedFromHero ? delete val.anthropometry.originatedFromHero : null;
+        
+        if(  !this.matStepper || this.matStepper.selectedIndex === 0 || this.matStepper.selectedIndex === this.lastStep ) {
           return;
         }
         this.moveToNextStep();
@@ -221,6 +246,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
       this.matStepper.selectionChange.subscribe( val => {
         let prev = val.previouslySelectedIndex,
           curr = val.selectedIndex;
+        
         this.scrollToStep(prev, curr);
         // Value from last step
         let prevStepValue = this.formParent.get(this.stepsArr[prev]).value;
@@ -237,7 +263,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
           this.mixpanelService.step({
             step: curr + 1,
             name: this.stepsArr[curr],
-            prevStepValue: (this.funnelData[prev].question || this.funnelData[prev].label) + ' - ' + prevStepValue
+            prevStepValue: (this.stepsArr[prev]) + ' - ' + prevStepValue
           });
           // Save to the step completed array
           this.stepsCompleted.push(prev);
@@ -261,8 +287,10 @@ export class FormParentComponent implements OnInit, OnDestroy {
   }
 
   scrollToStep(curr: number, target: number) {
-    let currPos = window.scrollY;
-    window.scrollTo({left: 0, top: currPos + ((target - curr) * 50), behavior: 'smooth' })
+    let parentOffset = this.firstStep.nativeElement.offsetParent.offsetTop;
+    let thisOffset = this.firstStep.nativeElement.offsetTop;
+    let firstStepPos = parentOffset + thisOffset; 
+    window.scrollTo({left: 0, top: firstStepPos + target * 50, behavior: 'smooth' })
   }
 
   setSelectStatus(status: any): void {

@@ -18,16 +18,16 @@
 
     <form *ngIf="funnelData" [formGroup]="formParent" (ngSubmit)="onSubmit(formParent)">
        
-        <div *ngIf="hasTopForm">
+      <!--   <div *ngIf="hasTopForm">
             <app-form-hero [parentGroup]="formParent" [data]="topFormData" (addControlEvent)="addControl($event)" (goToFirstStepEvent)="goToFirstStep()"></app-form-hero>
-        </div>
+        </div> -->
        
-        <div class="form__inner">
+        <div class="form__inner" #firstStep>
             <div class="headline-box">
-            <h1 class="headlineH1" #firstStep>Find out which weight loss method is right for you</h1>
+            <h1 class="headlineH1" >Find out which weight loss method is right for you</h1>
             <h2>Fast, free and confidential.</h2>
             </div>
-            <mat-vertical-stepper (click)="updateUrl(matStepper.selectedIndex)" #matStepper>
+            <mat-vertical-stepper (click)="updateUrl(matStepper.selectedIndex)" linear #matStepper>
                 <ng-container *ngFor="let step of funnelData">
                 <mat-step  *ngIf="step.field === 'step'" [stepControl]="getStep(step.name)">
                     
@@ -38,7 +38,7 @@
                 </ng-container>
 
             </mat-vertical-stepper>
-               <pre>{{formParent.value | json }}</pre>    
+               <!-- <pre>{{formParent.value | json }}</pre>     -->
         </div>
     </form>
     <div #ubFormContainer [attr.id]="'ubFormContainer'"></div>

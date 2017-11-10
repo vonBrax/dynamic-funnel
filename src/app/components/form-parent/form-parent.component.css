@@ -17,16 +17,6 @@ h2 {
     padding: 2em 0;
 }
 
-:host /deep/ .mat-step-icon,
-:host /deep/ .mat-step-icon-not-touched {
-    flex-shrink: 0;
-}
-
-:host /deep/ .mat-step-label,
-:host /deep/ .mat-radio-label {
-    text-overflow: initial;
-    white-space: normal;
-}
 
 .buttons {
     margin: 1em 0;
@@ -66,21 +56,33 @@ app-form-hero {
     font-size: 1.5em;
 }
 
+:host /deep/ .mat-step-icon,
+:host /deep/ .mat-step-icon-not-touched {
+    flex-shrink: 0;
+}
+
+:host /deep/ .mat-step-label,
+:host /deep/ .mat-radio-label {
+    text-overflow: initial;
+    white-space: normal;
+}
+
+
 @media (min-width: 600px) {
 
-    app-form-hero {
+   /*  app-form-hero {
         position: absolute;
         bottom: 100%;
         right: 0;
     }
-
+ */
     .how-it-works {
         display: flex;
     }
 }
 
-@media(max-width: 600px) {
+/* @media(max-width: 600px) {
     :host /deep/ app-form-hero .hero--form mat-card {
         box-shadow: none;
     }
-}
+} */

@@ -87,7 +87,7 @@
                 "name": "height",
                 "type": "text",
                 "subtype": "number",
-                "validators": ["required"],
+                "validators": null,
                 "question": "My height",
                 "unit_values": ["cm", "in"],
                 "default_unit": "cm",
@@ -97,7 +97,7 @@
                 "name": "weight",
                 "type": "text",
                 "subtype": "number",
-                "validators": ["required"],
+                "validators": null,
                 "question": "My weight",
                 "unit_values": ["kg", "lb"],
                 "default_unit": "kg",
@@ -107,7 +107,7 @@
                 "name": "target_weight",
                 "type": "text",
                 "subtype": "number",
-                "validators": ["required"],
+                "validators": null,
                 "question": "My target weight",
                 "unit_values": ["kg", "lb"],
                 "default_unit": "kg",
@@ -131,6 +131,14 @@
                 "default_unit": "cm",
                 "error_message": "Please tells us your height"
              },
+            {
+                "name": "height_unit",
+                "type": "select",
+                "multiple": false,
+                "validators": ["required"],
+                "default": "cm",
+                "answers": [ "cm", "in" ]
+            },
              {
                 "name": "weight",
                 "type": "text",
@@ -142,6 +150,14 @@
                 "error_message": "Please tell us your weight"
              },
             {
+                "name": "weight_unit",
+                "type": "select",
+                "multiple": false,
+                "validators": ["required"],
+                "default": "kg",
+                "answers": [ "kg", "lb" ]
+            },
+            {
                 "name": "target_weight",
                 "type": "text",
                 "subtype": "number",
@@ -150,7 +166,23 @@
                 "unit_values": ["kg", "lb"],
                 "default_unit": "kg",
                 "error_message": "Please tell us your target weight"
-             }
+             },
+            {
+                "name": "target_weight_unit",
+                "type": "select",
+                "multiple": false,
+                "validators": ["required"],
+                "default": "kg",
+                "answers": [ "kg", "lb" ]
+            },
+            {
+                "type": "button",
+                "subtype": "button",
+                "style": "mat-raised-button",
+                "color": "primary",
+                "value": "NEXT",
+                "modifier_class": "full-width marginTopSmall"
+            }
         ]
     },
 /* 
@@ -188,7 +220,7 @@
         "answers": [
             "I am open to any procedure, as long as it is the best option for me",
             "I'm looking for less invasive procedures only",
-            "I don't know / Not Sure"
+            "I don't know / Not sure"
         ]
     },
     {
@@ -267,6 +299,7 @@
         "type": "select",
         "multiple": true,
         "validators": ["required"],
+        "placeholder": "Please select",
         "error_message": "Please pick at least one option",
         "question": "Do you have weight-related health issues?",
         "answers": [
@@ -375,7 +408,7 @@
                 "subtype": "submit",
                 "style": "mat-raised-button",
                 "color": "primary",
-                "value": "Get your inquiry now"
+                "value": "Find out now"
             }
         ]
     }

@@ -5,23 +5,37 @@
       <h1>Your Weight Loss Journey</h1>
         
       <div class="hero__value">
-        <mat-icon>check</mat-icon>
-        <span><strong>Affordable</strong></span>
-        <p class="padding-left--medium">Find the right option for you</p>
+        <h2>
+           <mat-icon>check</mat-icon>
+          <strong>Affordable</strong>
+        </h2>
+        <p class="padding-left--large">Find the right option for you</p>
       </div>
       
       <div class="hero__value">
-        <mat-icon>check</mat-icon>
-        <span><strong>High quality</strong></span>
-        <p class="padding-left--medium">The best doctors pre-selected for you</p>
+        <h2>
+          <mat-icon>check</mat-icon>
+          <strong>High quality</strong>
+        </h2>
+        <p class="padding-left--large">The best doctors pre-selected for you</p>
       </div>
       
       <div class="hero__value">
-        <mat-icon>check</mat-icon>
-        <span><strong>Safe</strong></span>
-        <p class="padding-left--medium">We'll guide you every step of the way</p>
+        <h2>
+          <mat-icon>check</mat-icon>
+          <strong>Safe</strong>
+      </h2>
+        <p class="padding-left--large">We'll guide you every step of the way</p>
       </div>
+
+      <button mat-raised-button class="show--mobile marginTopNormal" color="primary" type="button" (click)="goToFirstStep()" >Get started</button>
+
       
     </div>
+
+      <ng-container *ngIf="hasTopForm">
+          <app-form-hero [data]="topFormData"></app-form-hero>
+      </ng-container>
+
   </div>
 </div>

@@ -10,7 +10,7 @@
 .anthropometry {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
     /* flex-direction: column; */
 }
 
@@ -71,7 +71,7 @@ app-slider {
 @media (min-width: 600px) {
     .anthropometry {
         flex-direction: row;
-        padding-top: 1em;
+        /* padding-top: 1em; */
     }
     .matSliderContainer__button {
         order: 1;
@@ -95,4 +95,55 @@ app-slider {
     .personal_information .full-width {
         max-width: 100%;
     }
+}
+
+
+.anthropometry
+.field-wrapper {
+    max-width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    width: 60%;
+}
+
+.anthropometry app-text{
+    /* flex: 0 0 49%; */
+    width: 120px;
+    /* max-width: 120px; */
+}
+
+/* :host /deep/ .anthropometry app-text mat-form-field {
+    max-width: 120px;
+}
+ */
+
+
+.anthropometry app-select {
+    /* flex: 1 1 70%; */
+   /*  flex: 0 0 49%; */
+   width: 45px;
+    margin-left: .5em;
+}
+
+ :host /deep/ .anthropometry app-select mat-form-field {
+    max-width: 45px;
+}
+ 
+.anthropometry .line-break {
+    width: 100%;
+}
+/* 
+:host /deep/ .anthropometry .select-container {
+    max-width: 45px;
+} */
+
+.anthropometry
+mat-card mat-card-header mat-card-title {
+    font-size: 1em;
+    margin-bottom: 1.5em;
+}
+
+.anthropometry
+mat-card mat-card-header mat-card-subtitle {
+    font-size: .75em;
 }
