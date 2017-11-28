@@ -2,10 +2,15 @@
     
     <div class="how-it-works">
         
-        <div class="column">
+        <div class="column" *ngFor="let value of funnelData[1].how_it_works.values, index as i">
+            <h3 class="title"><span>{{'0' + (i+1)}}</span>{{value.title}}</h3>
+            <div class="body">{{value.text}}</div>
+        </div>
+        
+      <!--   <div class="column">
             <h3 class="title"><span>01</span> FREE PHONE CONSULTATION</h3>
             <div class="body">Learn everything there is to know about weight loss, our doctors and your options</div>
-        </div> 
+        </div>
         <div class="column">
             <h3 class="title"><span>02</span> RECEIVE FREE QUOTE</h3>
             <div class="body">We'll send you a free, personal quote so you'll know exactly what's included</div>
@@ -13,9 +18,9 @@
         <div class="column">
             <h3 class="title"><span>03</span> BOOK, SIT BACK AND RELAX</h3>
             <div class="body">If you decide to book, your personal health manager will make sure you're well prepared. We will never charge extra for our services</div>
-        </div>
-    </div>
-
+        </div> -->
+    
+    </div> 
     <form *ngIf="funnelData" [formGroup]="formParent" (ngSubmit)="onSubmit(formParent)">
        
       <!--   <div *ngIf="hasTopForm">
@@ -24,8 +29,8 @@
        
         <div class="form__inner" #firstStep>
             <div class="headline-box">
-            <h1 class="headlineH1" >Find out which weight loss method is right for you</h1>
-            <h2>Fast, free and confidential.</h2>
+            <h1 class="headlineH1" >{{funnelData[2].funnel.values[0].title}}</h1>
+            <h2>{{funnelData[2].funnel.values[0].text}}</h2>
             </div>
             <mat-vertical-stepper (click)="updateUrl(matStepper.selectedIndex)" linear #matStepper>
                 <ng-container *ngFor="let step of funnelData">
@@ -38,7 +43,7 @@
                 </ng-container>
 
             </mat-vertical-stepper>
-               <!-- <pre>{{formParent.value | json }}</pre>     -->
+               <!--  <pre>{{formParent.value | json }}</pre> -->     
         </div>
     </form>
     <div #ubFormContainer [attr.id]="'ubFormContainer'"></div>

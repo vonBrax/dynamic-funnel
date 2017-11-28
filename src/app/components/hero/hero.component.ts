@@ -11,16 +11,23 @@ export class HeroComponent implements OnInit {
 
   hasTopForm: boolean = false;
   topFormData: any;
+  heroStrings: any;
   
   constructor(private formSyncService: FormSyncService ) { }
 
   ngOnInit() {
-
     bariatric.forEach(step => {
-       if( step.type === 'form_hero' ) {
+      if(step.hero_banner) {
+        this.heroStrings = step.hero_banner;
+
+        this.hasTopForm = step.hero_banner.funnel? true : false;
+        this.topFormData = step.hero_banner.funnel;
+
+      }
+      /*  if( step.type === 'form_hero' ) {
         this.hasTopForm = true;
         this.topFormData = step;
-      }
+      } */
     });
   }
 

@@ -3,9 +3,9 @@ a {
     color: #e1e1e1;
 }
 
-a:hover,
-a:active,
-a:focus {
+:host /deep/ a:hover,
+:host /deep/ a:active,
+:host /deep/ a:focus {
     text-decoration: underline;
 }
 

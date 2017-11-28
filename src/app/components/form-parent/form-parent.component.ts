@@ -26,7 +26,7 @@ declare var lp;
 })
 export class FormParentComponent implements OnInit, OnDestroy {
 
-  funnelName: string = 'EN.Bariatrics:1.2';
+  funnelName: string = 'DE.Bariatrics:1.2';
   funnelData: any;
   formParent: FormGroup;
   activeStep: number = 1;
@@ -96,6 +96,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
   createHiddenFields(form: any): void {
     // Create hidden fields for available steps
     this.funnelData.forEach(step => {
+      if(!step.field || step.field !== 'step') { return; }
       if(step.question) {
        this.createSingleField(step.name, form);
       } else if (step.questions) {
@@ -114,7 +115,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
     if(!name || !form) {
       return;
     }
-    let fieldSet = form.querySelector('fieldset');
+    let fieldSet = form.querySelector('.fields');
     let el = document.createElement('input');
     el.setAttribute('type','hidden' );
     el.setAttribute('class','hidden' );
@@ -277,7 +278,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
   }
 
   prepareUnbounceForm(form: FormGroup): void {
-    let fieldsArr = Array.prototype.slice.call(this.ubForm.querySelectorAll('fieldset input'));
+    let fieldsArr = Array.prototype.slice.call(this.ubForm.querySelectorAll('.fields input'));
     fieldsArr.forEach(field => {
       let path = field.dataset.path ? field.dataset.path + '.' + field.name : field.name;
       if(form.get(path)) {

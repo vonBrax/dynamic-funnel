@@ -27,7 +27,7 @@ export class TextComponent implements OnInit {
   selectErrorMessage(): string {
     return ( this.parentGroup.get(this.data.name).hasError('email') &&
               !this.parentGroup.get(this.data.name).hasError('required')) ?
-                'Please enter a valid email address' :
+                (this.data.error_message_email ? this.data.error_message_email : 'Please enter a valid email address') :
                   this.data.error_message;
   }
 }

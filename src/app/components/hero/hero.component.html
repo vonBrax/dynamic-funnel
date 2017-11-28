@@ -2,17 +2,17 @@
   <div class="hero__inner center-content">
     
     <div class="hero__values">
-      <h1>Your Weight Loss Journey</h1>
+      <h1>{{heroStrings.headline}}</h1>
         
-      <div class="hero__value">
+      <div class="hero__value" *ngFor="let value of heroStrings.values">
         <h2>
            <mat-icon>check</mat-icon>
-          <strong>Affordable</strong>
+          <strong>{{value.title}}</strong>
         </h2>
-        <p class="padding-left--large">Find the right option for you</p>
+        <p class="padding-left--large">{{value.description}}</p>
       </div>
       
-      <div class="hero__value">
+      <!-- <div class="hero__value">
         <h2>
           <mat-icon>check</mat-icon>
           <strong>High quality</strong>
@@ -26,9 +26,9 @@
           <strong>Safe</strong>
       </h2>
         <p class="padding-left--large">We'll guide you every step of the way</p>
-      </div>
+      </div> -->
 
-      <button mat-raised-button class="show--mobile marginTopNormal" color="primary" type="button" (click)="goToFirstStep()" >Get started</button>
+      <button mat-raised-button class="show--mobile marginTopNormal" color="primary" type="button" (click)="goToFirstStep()">{{heroStrings.button_value}}</button>
 
       
     </div>

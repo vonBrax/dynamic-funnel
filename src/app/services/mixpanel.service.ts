@@ -9,6 +9,7 @@ export class MixpanelService {
   funnel: string;
   userIP: string;
   pageName: string;
+  variant: string;
   mixpanelNotLoaded: boolean = false;
   isPAVaccess: boolean = false;
   errorMessage: string[] = [];
@@ -25,6 +26,7 @@ export class MixpanelService {
         return;
       }
       this.pageName = ub.page.name;
+      this.variant = ub.page.variantId.toUpperCase();
       this.funnel = funnel;
 
       let userId = this.checkUserID();
@@ -88,7 +90,9 @@ export class MixpanelService {
       // Set Event properties for each step of the funnel
       var evtProp = ({
           'Funnel': this.funnel,
-          'Page Variant': this.pageName || 'Unknown',
+          'Funnel Variant': `${this.funnel} - Variant ${this.variant}`,
+          'Page': this.pageName,
+          'Page Variant': `${this.pageName} - Variant ${this.variant}` || 'Unknown',
           'Step': 'Step ' + step,
           'Previous Step': prevStepValue,
           'Action': 'Page View',
@@ -122,7 +126,10 @@ export class MixpanelService {
         this.errorMessage.push(err.toString());
     }
     mixpanel.track('Lead Generated', {
-        'Page Variant': this.pageName || 'Unknown',
+        'Funnel': this.funnel,
+        'Funnel Variant': `${this.funnel} - Variant ${this.variant}`,
+        'Page': this.pageName,
+        'Page Variant': `${this.pageName} - Variant ${this.variant}` || 'Unknown',
         'Action': 'Submit',
         'User IP': this.userIP,
         'PAV IP': this.userIP === 'Not available' ? 'Unkwnown' : (this.isPAVaccess ? 'Yes' : 'No'),
