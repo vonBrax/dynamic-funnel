@@ -223,6 +223,11 @@ body {
     /*  background: blue; */
 }
 
+.mat-autocomplete-panel {
+  width: fit-content;
+  max-width: 194.5%!important;
+}
+
 h1 {
     font-size: 2em;
 }

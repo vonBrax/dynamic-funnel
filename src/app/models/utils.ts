@@ -1,28 +1,26 @@
 // TODO: Rename this class and move it to the services folder
 
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { FormControl, Validators, ValidatorFn, FormBuilder } from '@angular/forms';
 import { EmailValidatorService } from '../services/email.validator.service';
+
+/** TODO: REMOVE ONCE ANGULAR FIX IT (TYPE NOT YET EXPORTED!) */
+export type FormHooks = 'change' | 'blur' | 'submit';
 
 @Injectable()
 export class Utils {
 
     constructor(private emailValidator: EmailValidatorService, private fb: FormBuilder) {}
 
-    public createSingleControl(val: any, rules: any): FormControl {
+    public createSingleControl(val: string, rules: string[], updateOn: FormHooks = 'change' ): FormControl {
         const validatorsArr: ValidatorFn[] = this.createValidators(rules);
-        // return this.fb.control(val, Validators.compose(validators));
-
-        const ctrl = new FormControl('', {
-            validators: Validators.compose(validatorsArr),
-            updateOn: 'blur'
-        });
-
-        // return new FormControl( val, Validators.compose(validatorsArr));
+        const ctrl = new FormControl(val, {validators: Validators.compose(validatorsArr), updateOn: updateOn });
+        // return new FormControl(val, {validators: Validators.compose(validatorsArr), updateOn: updateOn});
+        // return this.fb.control(val, { validators: Validators.compose(validatorsArr), updateOn: 'blur'});
         return ctrl;
     }
 
-    private createValidators(rules: any): ValidatorFn[] {
+    private createValidators(rules: string[]): ValidatorFn[] {
         if (!rules) {
             return;
         }

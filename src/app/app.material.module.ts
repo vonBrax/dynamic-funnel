@@ -11,7 +11,8 @@ import {
     MatSelectModule,
     MatButtonToggleModule,
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    MatAutocompleteModule
   } from '@angular/material';
 
   const materialImports = [
@@ -26,11 +27,12 @@ import {
         MatSelectModule,
         MatButtonToggleModule,
         MatToolbarModule,
-        MatCardModule
+        MatCardModule,
+        MatAutocompleteModule
       ];
 
   @NgModule({
     imports: materialImports,
     exports: materialImports
   })
-  export class AppMaterialModule {}
+  export class AppMaterialModule { }

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app.material.module';
 
@@ -31,6 +32,7 @@ import { ToolbarComponent } from './components/form-inputs/toolbar/toolbar.compo
 import { SelectComponent } from './components/form-inputs/select/select.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { FormHeroComponent } from './components/form-hero/form-hero.component';
+import { IntlTelInputComponent } from './components/intl-tel-input/intl-tel-input.component';
 
 @NgModule({
   declarations: [
@@ -54,12 +56,14 @@ import { FormHeroComponent } from './components/form-hero/form-hero.component';
     SelectComponent,
     HeroComponent,
     FormHeroComponent,
+    IntlTelInputComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
     ReactiveFormsModule,
-    FormsModule,
     AppMaterialModule
   ],
   providers: [ BmiCalculatorService, FormSyncService, EmailValidatorService, Utils ],

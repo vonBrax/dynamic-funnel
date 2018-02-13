@@ -12,17 +12,21 @@ export class TextComponent implements OnInit {
 
   @Input()
   data: any;
-
   @Input()
   parentGroup: FormGroup;
-
   @Output()
   addControlEvent: EventEmitter<any> = new EventEmitter();
+
+  lastEmailValue: string;
 
   constructor(private utils: Utils) { }
 
   ngOnInit() {
-    this.addControlEvent.emit({name: this.data.name, control:  this.utils.createSingleControl('', this.data.validators ), parent: true });
+    this.addControlEvent.emit({
+      name: this.data.name,
+      control:  this.utils.createSingleControl('', this.data.validators, 'blur' ),
+      parent: true
+    });
   }
 
   /**
@@ -33,6 +37,17 @@ export class TextComponent implements OnInit {
     ));
    */
 
+  revalidateEmail(evt) {
+    const value = evt.target.value;
+    if (!this.lastEmailValue) {
+      this.lastEmailValue = value;
+    } else if (this.lastEmailValue === value) {
+      this.parentGroup.get('email').updateValueAndValidity({onlySelf: true});
+    }
+    this.lastEmailValue = value;
+  }
+
+
   selectErrorMessage(): string {
     // return 'field required';
 
@@ -41,7 +56,9 @@ export class TextComponent implements OnInit {
                 (this.data.error_message_email ? this.data.error_message_email : 'Please enter a valid email address') :
                   this.data.error_message; */
 
-    return (this.parentGroup.get(this.data.name).errors && this.parentGroup.get(this.data.name).errors.message) || this.data.error_message;
+    return (
+      this.parentGroup.get(this.data.name).errors && this.parentGroup.get(this.data.name).errors.message
+    ) || this.data.error_message;
 
   }
 }
