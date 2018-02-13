@@ -44,8 +44,6 @@ export class MixpanelService {
         prevStepValue: '',
         name: name
       });
-    
-   
   }
 
   checkUserID(): string {
@@ -60,7 +58,7 @@ export class MixpanelService {
       if (!userId) {
           // If no userID was found on localStorage and unbounce cookie, try mixpanel cookie
           try {
-              let temp = JSON.parse(decodeURIComponent(document.cookie.match(/mixpanel=[^;]*/)[0]).replace('mixpanel=', ''));
+              const temp = JSON.parse(decodeURIComponent(document.cookie.match(/mixpanel=[^;]*/)[0]).replace('mixpanel=', ''));
               userId = temp.distinct_id || 'Unknown';
               this.isPAVaccess = this.checkUserIP(userId);
           } catch (err) {
@@ -83,12 +81,12 @@ export class MixpanelService {
   }
 
   step( {step, prevStepValue, name} ) {
-      if(this.mixpanelNotLoaded) {
+      if (this.mixpanelNotLoaded) {
         this.errorMessage.push('Mixpanel is not loaded for steps');
         return;
       }
       // Set Event properties for each step of the funnel
-      var evtProp = ({
+      const evtProp = ({
           'Funnel': this.funnel,
           'Funnel Variant': `${this.funnel} - Variant ${this.variant}`,
           'Page': this.pageName,
@@ -106,7 +104,7 @@ export class MixpanelService {
       mixpanel.track('Step ' + step, evtProp);
   }
   submit({first_name, last_name, email, phone_number, additional_info, tos_signoff}) {
-    let now = new Date().toISOString();
+    const now = new Date().toISOString();
     mixpanel.people.set({
         '$first_name': first_name,
         '$email': email,
@@ -115,7 +113,7 @@ export class MixpanelService {
         '$phone': phone_number
     });
     try {
-        let cl = {
+        const cl = {
             first_name: first_name,
             last_name: last_name,
             email: email,

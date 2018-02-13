@@ -7,6 +7,8 @@ import { AppMaterialModule } from './app.material.module';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { BmiCalculatorService } from './services/bmi-calculator.service';
 import { FormSyncService } from './services/form-sync.service';
+import { EmailValidatorService } from './services/email.validator.service';
+import { Utils } from './models/utils';
 import { HtmlPipe } from './models/html.pipe';
 
 import { AppComponent } from './app.component';
@@ -60,7 +62,7 @@ import { FormHeroComponent } from './components/form-hero/form-hero.component';
     FormsModule,
     AppMaterialModule
   ],
-  providers: [ BmiCalculatorService, FormSyncService ],
+  providers: [ BmiCalculatorService, FormSyncService, EmailValidatorService, Utils ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

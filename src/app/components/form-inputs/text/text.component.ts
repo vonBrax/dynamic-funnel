@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { Utils } from '../../../models/utils';
+
 
 @Component({
   selector: 'app-text',
@@ -18,16 +19,29 @@ export class TextComponent implements OnInit {
   @Output()
   addControlEvent: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor(private utils: Utils) { }
 
   ngOnInit() {
-    this.addControlEvent.emit({name: this.data.name, control:  Utils.createSingleControl('', this.data.validators ), parent: true });
+    this.addControlEvent.emit({name: this.data.name, control:  this.utils.createSingleControl('', this.data.validators ), parent: true });
   }
 
+  /**
+   *
+   *  this.formGroup.get('personal_information.email')
+      .setValidators( Validators.compose(
+        [Validators.required, this.emailValidator.validate()]
+    ));
+   */
+
   selectErrorMessage(): string {
-    return ( this.parentGroup.get(this.data.name).hasError('email') &&
+    // return 'field required';
+
+    /* return ( this.parentGroup.get(this.data.name).hasError('email') &&
               !this.parentGroup.get(this.data.name).hasError('required')) ?
                 (this.data.error_message_email ? this.data.error_message_email : 'Please enter a valid email address') :
-                  this.data.error_message;
+                  this.data.error_message; */
+
+    return (this.parentGroup.get(this.data.name).errors && this.parentGroup.get(this.data.name).errors.message) || this.data.error_message;
+
   }
 }

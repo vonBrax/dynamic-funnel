@@ -18,12 +18,12 @@ export class TextareaComponent implements OnInit {
   @Output()
   addControlEvent: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor(private utils: Utils) { }
 
   ngOnInit() {
       this.addControlEvent.emit({
         name: this.data.name,
-        control: Utils.createSingleControl(this.data.value, this.data.validators),
+        control: this.utils.createSingleControl(this.data.value, this.data.validators),
         parent: true
       });
   }

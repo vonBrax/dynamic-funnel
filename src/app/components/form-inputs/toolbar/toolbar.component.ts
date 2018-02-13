@@ -20,22 +20,22 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @Output()
   addControlEvent: EventEmitter<any> = new EventEmitter();
 
-  bmi: number = 0;
+  bmi = 0;
   subscription: Subscription;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor( private bmiCalculator: BmiCalculatorService ) { }
+  constructor( private bmiCalculator: BmiCalculatorService, private utils: Utils ) { }
 
   ngOnInit() {
     this.addControlEvent.emit({
       name: this.data.name,
-      control: Utils.createSingleControl('', this.data.validators),
+      control: this.utils.createSingleControl('', this.data.validators),
       parent: true
     });
     this.subscription = this.bmiCalculator.getBMI()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(val => {
-        if(this.bmi !== val) {
+        if (this.bmi !== val) {
             this.bmi = val;
             this.parentGroup.patchValue({bmi: this.bmi});
         }

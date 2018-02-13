@@ -31,10 +31,10 @@ export class SliderComponent implements OnInit, OnDestroy {
     return this.parentGroup.get(this.data.name) as FormControl;
   }
 
-  constructor(private bmiCalculator: BmiCalculatorService ) { }
+  constructor(private bmiCalculator: BmiCalculatorService, private utils: Utils ) { }
 
   ngOnInit() {
-    if(this.data.name === 'height' ) {
+    if (this.data.name === 'height' ) {
       this.sliderData = new Height();
     } else if (this.data.name === 'weight') {
       this.sliderData = new Weight();
@@ -44,7 +44,7 @@ export class SliderComponent implements OnInit, OnDestroy {
     this.activeUnit = this.data.default;
     this.addControlEvent.emit({
       name: this.data.name,
-      control: Utils.createSingleControl('', this.data.validators),
+      control: this.utils.createSingleControl('', this.data.validators),
       parent: true
     });
     this.parentGroup.valueChanges
@@ -62,13 +62,13 @@ export class SliderComponent implements OnInit, OnDestroy {
     if (this.activeUnit === 'cm') {
       return val + ' cm';
     }
-    let int = ~~(val / 12);
-    let mod = val % 12;
+    const int = ~~(val / 12);
+    const mod = val % 12;
     return mod === 0 ? `${int}ft ` :  `${int}ft ${mod}in`;
   }
 
   formatUnit(val: number) {
-    if(this.formControl.pristine) {
+    if (this.formControl.pristine) {
       return this.activeUnit;
     } else {
       return this.data.name === 'height' ? this.formatHeight(val) :
@@ -78,16 +78,16 @@ export class SliderComponent implements OnInit, OnDestroy {
   }
 
   formatWeight(val: number): string {
-    if(this.activeUnit === 'kg') {
+    if (this.activeUnit === 'kg') {
       return val + ' kg';
     }
-    let int = ~~(val / 14);
-    let mod = val % 14;
+    const int = ~~(val / 14);
+    const mod = val % 14;
     return mod === 0 ? `${int}st ` : `${int}st ${mod}lb`;
   }
 
   updateFormValue(val) {
-    let obj = {};
+    const obj = {};
     this.activeUnit = val;
     obj[this.data.name] = this.sliderData[this.activeUnit].default;
     this.parentGroup.patchValue(obj);

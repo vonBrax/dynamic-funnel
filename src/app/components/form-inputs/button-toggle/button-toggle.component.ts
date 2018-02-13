@@ -26,12 +26,12 @@ export class ButtonToggleComponent implements OnInit, OnDestroy {
     return this.parentGroup.get(this.data.name) as FormControl;
   }
 
-  constructor() { }
+  constructor(private utils: Utils) { }
 
   ngOnInit() {
     this.addControlEvent.emit({
       name: this.data.name,
-      control: Utils.createSingleControl(this.data.default, this.data.validators),
+      control: this.utils.createSingleControl(this.data.default, this.data.validators),
       parent: true
     });
     this.onChanges();

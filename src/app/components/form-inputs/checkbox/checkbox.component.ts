@@ -22,18 +22,18 @@ export class CheckboxComponent implements OnInit {
     return this.parentGroup.get(this.data.name) as FormControl;
   }
 
-  constructor() { }
+  constructor(private utils: Utils) { }
 
   ngOnInit() {
     this.addControlEvent.emit({
       name: this.data.name,
-      control: Utils.createSingleControl(this.data.value, this.data.validators),
+      control: this.utils.createSingleControl(this.data.value, this.data.validators),
       parent: true
     });
   }
 
   isInvalid() {
-    if(this.formControl.touched && this.formControl.invalid) {
+    if (this.formControl.touched && this.formControl.invalid) {
       return true;
     } else {
       return false;

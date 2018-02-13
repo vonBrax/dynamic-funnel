@@ -9,18 +9,18 @@ import { bariatric } from '../../models/bariatric';
 })
 export class HeroComponent implements OnInit {
 
-  hasTopForm: boolean = false;
+  hasTopForm = false;
   topFormData: any;
   heroStrings: any;
-  
+
   constructor(private formSyncService: FormSyncService ) { }
 
   ngOnInit() {
     bariatric.forEach(step => {
-      if(step.hero_banner) {
+      if (step.hero_banner) {
         this.heroStrings = step.hero_banner;
 
-        this.hasTopForm = step.hero_banner.funnel? true : false;
+        this.hasTopForm = step.hero_banner.funnel ? true : false;
         this.topFormData = step.hero_banner.funnel;
 
       }
@@ -34,5 +34,4 @@ export class HeroComponent implements OnInit {
   goToFirstStep() {
     this.formSyncService.dataFlow.next('go to first step');
   }
-
 }

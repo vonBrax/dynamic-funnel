@@ -20,10 +20,10 @@ export class RadioComponent implements OnInit {
 
   stepControl: FormControl;
 
-  constructor() { }
+  constructor( private utils: Utils) { }
 
   ngOnInit() {
-    this.stepControl = Utils.createSingleControl('', this.data.validators);
+    this.stepControl = this.utils.createSingleControl('', this.data.validators);
     this.addControlEvent.emit({name: this.data.name, control: this.stepControl});
   }
 }

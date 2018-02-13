@@ -22,15 +22,15 @@ export class SelectComponent implements OnInit {
 
   stepControl: FormControl;
 
-  constructor() { }
+  constructor(private utils: Utils) { }
 
   ngOnInit() {
-    this.stepControl = Utils.createSingleControl('',this.data.validators);
+    this.stepControl = this.utils.createSingleControl('', this.data.validators);
     this.addControlEvent.emit({name: this.data.name, control: this.stepControl, parent: this.isGroup });
   }
 
   selectOpened() {
-    this.selectOpenedOrClosedEvent.emit({opened: true, closed: false})
+    this.selectOpenedOrClosedEvent.emit({opened: true, closed: false});
   }
 
   selectClosed() {
