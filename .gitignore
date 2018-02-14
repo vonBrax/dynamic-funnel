@@ -2,6 +2,5 @@
 .DS_Store?
 node_modules
 bariatric.json
-dist
 #e2e
 #karma.conf.js
