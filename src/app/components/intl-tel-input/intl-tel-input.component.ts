@@ -120,7 +120,7 @@ export class IntlTelInputComponent implements OnInit {
     if (options.utilsScript) {
       this.intlTelInputUtils = new IntlTelInputUtils();
       this.dataService
-        .getJson('https://raw.githubusercontent.com/vonBrax/dynamic-funnel/feature/phone-email-validation/metadata.custom.json')
+        .getJson('https://raw.githubusercontent.com/vonBrax/dynamic-funnel/feature/remove-slider-component/metadata.custom.json')
         .then(data => {
           this.intlTelInputUtils.setCustomMetadata(data);
           if ( !this.phoneNumberControl.value && options.initialCountry !== 'auto') {
