@@ -102,6 +102,13 @@ export class FormParentComponent implements OnInit, OnDestroy {
       } else if (step.questions) {
         step.questions.forEach(question => {
           this.createSingleField(question.name, form, step.name);
+
+          // Hardcoded fix to create additional fields
+          // for the intl-tel-input component
+          if (question.name === 'phone_number') {
+            this.createSingleField('intl_phone', form, step.name );
+            this.createSingleField('phone_country', form, step.name );
+          }
           if (question.button_toggle) {
             this.createSingleField(question.button_toggle.name, form, step.name);
           }
@@ -157,7 +164,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
     let url = this.location.path();
     if (!/step=/.test(url)) {
       const hasParams = /\?/.test( url );
-      const target = this.matStepper.selectedIndex +1;
+      const target = this.matStepper.selectedIndex + 1;
      /*  if( hasParams && /step=/.test(url) ) {
         url = url.replace(/step=[^&]+/, 'step='+target);
       }  */
@@ -168,7 +175,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
       }
        this.location.replaceState(url);
     }
-    this.firstStep.nativeElement.scrollIntoView({behavior: 'smooth', block:'start'});
+    this.firstStep.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start'});
     if (this.formParent.get(this.stepsArr[0]).valid) {
       this.moveToNextStep();
     }
@@ -280,8 +287,22 @@ export class FormParentComponent implements OnInit, OnDestroy {
     const fieldsArr = Array.prototype.slice.call(this.ubForm.querySelectorAll('.fields input'));
     fieldsArr.forEach(field => {
       const path = field.dataset.path ? field.dataset.path + '.' + field.name : field.name;
-      if (form.get(path)) {
-        field.value = form.get(path).value;
+
+      // Hardcoded fix to fill values for additional fields required by
+      // intl-tel-input component
+      switch (field.name) {
+        case 'phone_country':
+          const val = form.get('personal_information.countryControl').value;
+          field.value = val.iso2 ? val.iso2 : val;
+          break;
+        case 'phone_number':
+          field.value = form.get('personal_information.phoneNumberControl').value;
+          break;
+        case 'intl_phone':
+          field.value = form.get('personal_information.hiddenPhoneNumberControl').value;
+          break;
+        default:
+          field.value = form.get(path) ? form.get(path).value : null;
       }
     });
   }

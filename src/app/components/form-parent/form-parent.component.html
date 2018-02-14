@@ -32,7 +32,7 @@
             <h1 class="headlineH1" >{{funnelData[2].funnel.values[0].title}}</h1>
             <h2>{{funnelData[2].funnel.values[0].text}}</h2>
             </div>
-            <mat-vertical-stepper (click)="updateUrl(matStepper.selectedIndex)"  #matStepper>
+            <mat-vertical-stepper (click)="updateUrl(matStepper.selectedIndex)" linear #matStepper>
                 <ng-container *ngFor="let step of funnelData">
                 <mat-step  *ngIf="step.field === 'step'" [stepControl]="getStep(step.name)">
                     

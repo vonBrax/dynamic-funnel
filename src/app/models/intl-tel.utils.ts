@@ -38,13 +38,7 @@ export class IntlTelInputUtils {
          */
 
         const numberStr = this.getExampleNumberForType(countryCode.toUpperCase(), numberType);
-
         const formatAs = nationalFormat ? 'National' : 'International';
-
-        console.log('FORMAT: ' + formatAs + ': ' +
-        formatCustom(numberStr, countryCode.toUpperCase() as CountryCode, formatAs, this.customMetadata) );
-        console.log(this.customMetadata);
-
         return formatCustom(numberStr, countryCode.toUpperCase() as CountryCode, formatAs, this.customMetadata);
 
       } catch (e) {
@@ -80,12 +74,8 @@ export class IntlTelInputUtils {
     isValidNumberCustom(number: string, countryCode: string) {
         try {
             const numberObj = parseCustom(number, countryCode.toUpperCase() as CountryCode, this.customMetadata);
-            console.log('Inside isValidNumberCustom...');
-            console.log(numberObj);
-            console.log(this.customMetadata);
             return isValidNumberCustom(numberObj, this.customMetadata);
         } catch (e) {
-            console.log(e);
             return false;
         }
     }

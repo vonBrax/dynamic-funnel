@@ -46,8 +46,8 @@ export class IntlTelInputComponent implements OnInit {
   @Output()
   addControlEvent: EventEmitter<any> = new EventEmitter();
 
-  countryStrings: any;
-  phoneStrings: any;
+  // countryStrings: any;
+  // phoneStrings: any;
 
   constructor(private fb: FormBuilder, private dataService: DataService, private utils: Utils ) { }
 
@@ -71,49 +71,7 @@ export class IntlTelInputComponent implements OnInit {
     return this.formGroup.get('hiddenPhoneNumberControl') as FormControl;
   }
 
-/**
- *
- * {
-          "name": "phone_country",
-          "type": "text",
-          "placeholder": "Country",
-          "error_message": "Please specify your country",
-          "validators": [
-            "required"
-          ]
-        },
-        {
-          "name": "phone_number",
-          "type": "phone",
-          "placeholder": "Phone number",
-          "error_message": "Please tell us your phone number",
-          "validators": [
-            "required"
-          ]
-        }
- *
- *
- *
- *
- *
- *   {
- *     name: phone_number,
- *     type: "phone",
- *     subtype: "tel",
- *     question: "Telefonnumer",
- *     error_message: "Bitte füllen sie Ihre Telefonnumer aus",
- *     modifier_class: "half-width",
- *     validators: ["required"]
- *   }
- *
- *
- *
- *
- */
-
-
   ngOnInit() {
-    console.log(this.strings);
 
     /* this.strings.map(field => {
       if (field.name === 'phone_country') {
@@ -139,11 +97,6 @@ export class IntlTelInputComponent implements OnInit {
       parent: true
     });
 
-    // TODO: REMOVE THIS UGLY STUFF (PROBABLY REFORMAT JSON
-    // TO USE 2 FIELDS FOR THIS COMPONENT)
-    this.strings.placeholder = 'Select';
-    this.countryStrings = this.phoneStrings = this.strings;
-
     this.filteredCountries = this.countryControl.valueChanges
       .pipe(
         startWith<string | Country>(this.countryControl.value),
@@ -163,16 +116,12 @@ export class IntlTelInputComponent implements OnInit {
       this.defaultCountry = this.selectedCountry.iso2;
     }
 
+    /** TODO: FIX URL FOR METADATA FILE!!  */
     if (options.utilsScript) {
       this.intlTelInputUtils = new IntlTelInputUtils();
-      this.dataService.getJson('https://raw.githubusercontent.com/vonBrax/ng-click-funnel/master/metadata.custom.json')
+      this.dataService
+        .getJson('https://raw.githubusercontent.com/vonBrax/dynamic-funnel/feature/phone-email-validation/metadata.custom.json')
         .then(data => {
-          console.log('Incoming data!!');
-          // data = JSON.parse(data);
-
-          console.log(data);
-          console.log(typeof data);
-          console.log(data[0]);
           this.intlTelInputUtils.setCustomMetadata(data);
           if ( !this.phoneNumberControl.value && options.initialCountry !== 'auto') {
             this.setCountry(this.preferredCountries.length ? this.preferredCountries[0].iso2 :
@@ -717,8 +666,6 @@ export class IntlTelInputComponent implements OnInit {
     const val = this._getFullNumber().trim(),
       countryCode = (options.nationalMode) ? this.selectedCountry.iso2 : '';
     // return (this.intlTelInputUtils ? this.intlTelInputUtils.isValidNumber(val, countryCode) : null);
-    console.log('Value: ' + val );
-    console.log('Country code: ' + countryCode );
     return (this.intlTelInputUtils ? this.intlTelInputUtils.isValidNumberCustom(val, countryCode) : null);
   }
 

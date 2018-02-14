@@ -377,7 +377,7 @@
                 "validators": ["required", "email"],
                 "error_message": "Please tell us your email",
                 "question": "Email",
-                "modifier_class": "half-width"
+                "modifier_class": "full-width"
             },
             {
                 "name": "phone_number",
@@ -386,7 +386,9 @@
                 "validators": ["required"],
                 "error_message": "Please tell us your phone number",
                 "question": "Phone Number",
-                "modifier_class": "half-width"
+                "modifier_class": "full-width",
+                "country_label": "Country",
+                "country_error": "Please tell us your country"
             },
             {
                 "name": "additional_info",
