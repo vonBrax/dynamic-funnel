@@ -2,9 +2,8 @@ import { Component, OnInit, ViewChild, OnDestroy, ElementRef } from '@angular/co
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 
-import { Subject } from 'rxjs/subject';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/map';
 
 import { MixpanelService } from '../../services/mixpanel.service';
 import { FormSyncService } from '../../services/form-sync.service';

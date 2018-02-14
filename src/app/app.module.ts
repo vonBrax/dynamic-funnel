@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from './app.material.module';
 
 import { ClickOutsideDirective } from './directives/click-outside.directive';
-import { BmiCalculatorService } from './services/bmi-calculator.service';
 import { FormSyncService } from './services/form-sync.service';
 import { EmailValidatorService } from './services/email.validator.service';
 import { Utils } from './models/utils';
@@ -22,13 +21,10 @@ import { FormStepComponent } from './components/form-step/form-step.component';
 
 /* Form Input Components */
 import { RadioComponent } from './components/form-inputs/radio/radio.component';
-import { SliderComponent } from './components/form-inputs/slider/slider.component';
 import { TextComponent } from './components/form-inputs/text/text.component';
 import { TextareaComponent } from './components/form-inputs/textarea/textarea.component';
 import { ButtonComponent } from './components/form-inputs/button/button.component';
-import { ButtonToggleComponent } from './components/form-inputs/button-toggle/button-toggle.component';
 import { CheckboxComponent } from './components/form-inputs/checkbox/checkbox.component';
-import { ToolbarComponent } from './components/form-inputs/toolbar/toolbar.component';
 import { SelectComponent } from './components/form-inputs/select/select.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { FormHeroComponent } from './components/form-hero/form-hero.component';
@@ -46,13 +42,10 @@ import { IntlTelInputComponent } from './components/intl-tel-input/intl-tel-inpu
     FormParentComponent,
     FormStepComponent,
     RadioComponent,
-    SliderComponent,
     TextComponent,
     TextareaComponent,
     ButtonComponent,
-    ButtonToggleComponent,
     CheckboxComponent,
-    ToolbarComponent,
     SelectComponent,
     HeroComponent,
     FormHeroComponent,
@@ -66,7 +59,7 @@ import { IntlTelInputComponent } from './components/intl-tel-input/intl-tel-inpu
     ReactiveFormsModule,
     AppMaterialModule
   ],
-  providers: [ BmiCalculatorService, FormSyncService, EmailValidatorService, Utils ],
+  providers: [ FormSyncService, EmailValidatorService, Utils ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,10 +14,6 @@
             <ng-container *ngFor="let question of data.questions">
                 
                 <ng-container [ngSwitch]="question.type">
-                    <div *ngSwitchCase="'slider'" class="matSliderContainer marginBottomNormal">
-                        <app-slider [parentGroup]="stepGroup" [data]="question" (addControlEvent)="addControl($event)" class="{{question.modifier_class}}"></app-slider>
-                    </div>
-                    <app-toolbar *ngSwitchCase="'toolbar'" [parentGroup]="stepGroup" [data]="question" (addControlEvent)="addControl($event)" class="{{question.modifier_class}}"></app-toolbar>
                     <app-text *ngSwitchCase="'text'" [parentGroup]="stepGroup" [data]="question" (addControlEvent)="addControl($event)" class="{{question.modifier_class}}"></app-text>
                     <app-intl-tel-input *ngSwitchCase="'phone'" [formGroup]="stepGroup" [strings]="question" (addControlEvent)="addControl($event)" class="{{question.modifier_class}}"></app-intl-tel-input>
                     <app-textarea *ngSwitchCase="'textarea'" [parentGroup]="stepGroup" [data]="question" (addControlEvent)="addControl($event)" class="{{question.modifier_class}}"></app-textarea>

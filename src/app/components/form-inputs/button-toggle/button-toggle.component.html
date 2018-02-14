@@ -1,5 +1,0 @@
-<div [formGroup]="parentGroup">
-    <mat-button-toggle-group [formControlName]="data.name" [value]="data.values[0].value">
-        <mat-button-toggle *ngFor="let value of data.values, index as i" [value]="value">{{value}}</mat-button-toggle>
-    </mat-button-toggle-group>
-</div>

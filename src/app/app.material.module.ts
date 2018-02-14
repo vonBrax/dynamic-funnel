@@ -7,10 +7,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    MatSliderModule,
     MatSelectModule,
-    MatButtonToggleModule,
-    MatToolbarModule,
     MatCardModule,
     MatAutocompleteModule
   } from '@angular/material';
@@ -23,10 +20,7 @@ import {
         MatFormFieldModule,
         MatInputModule,
         MatCheckboxModule,
-        MatSliderModule,
         MatSelectModule,
-        MatButtonToggleModule,
-        MatToolbarModule,
         MatCardModule,
         MatAutocompleteModule
       ];
