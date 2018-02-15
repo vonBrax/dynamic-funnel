@@ -301,7 +301,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
           field.value = form.get('personal_information.hiddenPhoneNumberControl').value;
           break;
         default:
-          field.value = form.get(path) ? form.get(path).value : null;
+          field.value = form.get(path) ? form.get(path).value : field.value;
       }
     });
   }

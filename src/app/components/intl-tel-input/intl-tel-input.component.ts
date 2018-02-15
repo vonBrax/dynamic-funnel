@@ -4,7 +4,7 @@
  */
 
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 import { Observable } from 'rxjs/Observable';
@@ -27,7 +27,6 @@ import { IntlTelInputUtils } from '../../models/intl-tel.utils';
 })
 export class IntlTelInputComponent implements OnInit {
 
-  // formGroup: FormGroup;
   countries: Country[];
   filteredCountries: Observable<Country[]>;
   selectedCountry: Country;
@@ -46,10 +45,7 @@ export class IntlTelInputComponent implements OnInit {
   @Output()
   addControlEvent: EventEmitter<any> = new EventEmitter();
 
-  // countryStrings: any;
-  // phoneStrings: any;
-
-  constructor(private fb: FormBuilder, private dataService: DataService, private utils: Utils ) { }
+  constructor( private dataService: DataService, private utils: Utils ) { }
 
   get allCountries(): Country[] {
     const countries = [];
@@ -120,7 +116,7 @@ export class IntlTelInputComponent implements OnInit {
     if (options.utilsScript) {
       this.intlTelInputUtils = new IntlTelInputUtils();
       this.dataService
-        .getJson('https://raw.githubusercontent.com/vonBrax/dynamic-funnel/feature/remove-slider-component/metadata.custom.json')
+        .getJson('https://cdn.rawgit.com/vonBrax/mat-intl-phone-input/v1.0.24/metadata.custom.json')
         .then(data => {
           this.intlTelInputUtils.setCustomMetadata(data);
           if ( !this.phoneNumberControl.value && options.initialCountry !== 'auto') {
@@ -405,7 +401,6 @@ export class IntlTelInputComponent implements OnInit {
 
     // do this first as it will throw an error and stop if countryCode is invalid
     this.selectedCountry = (countryCode) ? this._getCountryData(countryCode, false, false) : new Country(['', '', '']);
-
     this.countryControl.setValue(this.selectedCountry);
     // setTimeout(() => {  console.log('SETTING VALUE'); this.dialCodeControl.setValue(this.selectedCountry); } );
 
