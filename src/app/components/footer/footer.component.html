@@ -45,10 +45,10 @@
     <span> | </span>
     <a href="https://www.qunomedical.com/en/privacy">Privacy Policy</a>
   </p>  -->
-   <p [innerHTML]="(footer.terms+'<span> | </span>'+footer.privacy) | html"></p> 
+   <p [innerHTML]="(footer.terms+' | '+footer.privacy) | html"></p> 
 
   <p>
-    Copyright © {{this.year}} Qunomedical GmbH, {{footer ? footer.rights : 'All rights reserved' }}.
+    Copyright © {{year}} Qunomedical GmbH, {{footer ? footer.rights : 'All rights reserved' }}.
   </p>
   
 </div>

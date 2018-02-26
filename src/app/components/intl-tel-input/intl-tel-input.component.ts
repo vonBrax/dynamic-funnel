@@ -4,7 +4,7 @@
  */
 
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 import { Observable } from 'rxjs/Observable';
@@ -92,6 +92,8 @@ export class IntlTelInputComponent implements OnInit {
       control:  this.utils.createSingleControl('', ['']),
       parent: true
     });
+    this.countryControl.setValidators(Validators.compose([Validators.required, validateCountry()]));
+    this.phoneNumberControl.setValidators(Validators.compose([Validators.required, Validators.minLength(6)]));
 
     this.filteredCountries = this.countryControl.valueChanges
       .pipe(
@@ -107,10 +109,10 @@ export class IntlTelInputComponent implements OnInit {
         this._updateFlagFromNumber(data);
     });
 
-    if (this.countryControl.value) {
-      this.selectedCountry = this.countryControl.value as Country;
-      this.defaultCountry = this.selectedCountry.iso2;
-    }
+    // if (this.countryControl.value) {
+    //   this.selectedCountry = this.countryControl.value as Country;
+    //   this.defaultCountry = this.selectedCountry.iso2;
+    // }
 
     /** TODO: FIX URL FOR METADATA FILE!!  */
     if (options.utilsScript) {
@@ -119,22 +121,34 @@ export class IntlTelInputComponent implements OnInit {
         .getJson('https://cdn.rawgit.com/vonBrax/mat-intl-phone-input/v1.0.24/metadata.custom.json')
         .then(data => {
           this.intlTelInputUtils.setCustomMetadata(data);
-          if ( !this.phoneNumberControl.value && options.initialCountry !== 'auto') {
-            this.setCountry(this.preferredCountries.length ? this.preferredCountries[0].iso2 :
-              this.countries[0].iso2);
-          } else {
-            // this._updateFlagFromNumber(this.phoneNumberControl.value);
-            this._updatePlaceholder();
-          }
+          this._updatePlaceholder();
+          // if ( !this.phoneNumberControl.value && options.initialCountry !== 'auto') {
+          //   this.setCountry(this.preferredCountries.length ? this.preferredCountries[0].iso2 :
+          //     this.countries[0].iso2);
+          // } else {
+          //   // this._updateFlagFromNumber(this.phoneNumberControl.value);
+          //   this._updatePlaceholder();
+          // }
         });
     }
     this._init();
   }
 
   onFocus(evt) {
-    if (evt.target.value && evt.target.setSelectionRange) {
-      evt.target.setSelectionRange(0, evt.target.value.length);
-    }
+    // if (evt.target.value && evt.target.setSelectionRange) {
+    //   evt.target.setSelectionRange(0, evt.target.value.length);
+    // }
+    this.countryControl.setValue('');
+  }
+
+  onBlur() {
+    setTimeout( () => {
+      if (this.countryControl.value === '') {
+        this.countryControl.setValue(this.selectedCountry);
+        // {onlySelf: true, emitEvent: true, emitModelToViewChange: true, emitViewToModelChange: true});
+        this.defaultCountry = this.selectedCountry.iso2;
+      }
+    }, 100);
   }
 
   onSelect(evt: MatAutocompleteSelectedEvent) {
@@ -149,7 +163,7 @@ export class IntlTelInputComponent implements OnInit {
 
     // focus the input
     // const len = this.phoneNumberControl.value.length;
-    // this.phoneNumberField.nativeElement.focus(); // .setSelectionRange(len, len);
+    this.phoneNumberField.nativeElement.focus(); // .setSelectionRange(len, len);
     // this.phoneNumberField.nativeElement.setSelectionRange(len, len);
   }
 
@@ -397,7 +411,7 @@ export class IntlTelInputComponent implements OnInit {
   }
 
   private _setFlag(countryCode: string) {
-    const prevCountry: Country = (this.selectedCountry.iso2) ? this.selectedCountry : new Country(['', '', '']);
+    // const prevCountry: Country = (this.selectedCountry.iso2) ? this.selectedCountry : new Country(['', '', '']);
 
     // do this first as it will throw an error and stop if countryCode is invalid
     this.selectedCountry = (countryCode) ? this._getCountryData(countryCode, false, false) : new Country(['', '', '']);
@@ -425,7 +439,7 @@ export class IntlTelInputComponent implements OnInit {
     this._updatePlaceholder();
 
     // return if the flag has changed or not
-    return (prevCountry.iso2 !== countryCode);
+    // return (prevCountry.iso2 !== countryCode);
   }
 
   private _getCountryData(countryCode: string, ignoreOnlyCountriesOption: boolean, allowFail: boolean): Country {
@@ -580,10 +594,11 @@ export class IntlTelInputComponent implements OnInit {
 
     if (countryCode !== null) {
       return this._setFlag(countryCode);
-    } else {
-      // Reseting the value for current country if none was found
-      this.countryControl.setValue(this.selectedCountry);
     }
+    // else {
+    //   // Reseting the value for current country if none was found
+    //   this.countryControl.setValue(this.selectedCountry);
+    // }
     return false;
   }
 
@@ -607,8 +622,12 @@ export class IntlTelInputComponent implements OnInit {
     const url = options.geoIpJsonpUrl;
     this.dataService.getJsonp(url)
     .then(value => this.handleAutoCountry(value))
-    .catch(e => this.setCountry(this.preferredCountries.length ? this.preferredCountries[0].iso2 :
-              this.countries[0].iso2));
+    .catch(e =>  {
+      const country = this.preferredCountries.length ? this.preferredCountries[0].iso2 :
+        this.countries[0].iso2;
+      // this.setCountry(this.preferredCountries.length ? this.preferredCountries[0].iso2 : this.countries[0].iso2)
+      this.handleAutoCountry({ip: '', country });
+    });
   }
 
   protected handleAutoCountry(data: IpInfoCallback ) {
@@ -622,10 +641,18 @@ export class IntlTelInputComponent implements OnInit {
         // } else {
         //   this._updateFlagFromNumber(this.phoneNumberControl.value);
         // }
-        if (!this.countryControl.value.name || !this.countryControl.value.iso2 || !this.countryControl.value.dialCode) {
-          this.defaultCountry = data.country.toLowerCase();
+
+        this.defaultCountry = data.country;
+
+        if (!this.countryControl.value || this.countryControl.invalid) {
           this.setCountry(this.defaultCountry);
+        } else {
+          this.setCountry(this.countryControl.value.iso2);
         }
+        // if (!this.countryControl.value.name || !this.countryControl.value.iso2 || !this.countryControl.value.dialCode) {
+        //   this.defaultCountry = data.country.toLowerCase();
+        //   this.setCountry(this.defaultCountry);
+        // }
     }
   }
 
@@ -668,10 +695,12 @@ export class IntlTelInputComponent implements OnInit {
   public setCountry(countryCode: string) {
     countryCode = countryCode.toLowerCase();
     // check if already selected
-    if (this.selectedCountry.iso2 !== countryCode) {
-      this._setFlag(countryCode);
-      this._updateDialCode(this.selectedCountry.dialCode, false);
-    }
+    // if (this.selectedCountry.iso2 !== countryCode) {
+    //   this._setFlag(countryCode);
+    //   this._updateDialCode(this.selectedCountry.dialCode, false);
+    // }
+    this._setFlag(countryCode);
+    this._updateDialCode(this.selectedCountry.dialCode, false );
   }
 
   // set the input value and update the flag
@@ -687,4 +716,11 @@ export class IntlTelInputComponent implements OnInit {
       this._updatePlaceholder();
   }
 
+}
+
+function validateCountry() {
+  return ( (ctrl: AbstractControl): {[key: string]: any} => {
+    if (!ctrl.value || ctrl.value instanceof Country) { return null; }
+    return { message: 'Please select a country from the list'};
+  });
 }

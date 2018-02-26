@@ -1,16 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
-
-/* @import "~@angular/material/prebuilt-themes/deeppurple-amber.css"; 
-
 /* RESET STYLES*/
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-weight: inherit;
-    /* font-size: inherit; */
     font-family: inherit;
     font-style: normal;
     border: 0;
@@ -46,7 +41,6 @@ video {
 
 html {
     text-size-adjust: 100%;
-    /* font-family: sans-serif; */
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-tap-highlight-color: transparent;
 }
@@ -191,7 +185,6 @@ p, span, div, input, checkbox, select, option, radio {
 } 
 
 /* GLOBAL STYLES */
-
 body {
     background: #f6f7fb;
     margin: 0;
@@ -220,7 +213,6 @@ body {
 
 .cdk-overlay-container .mat-select-panel {
      max-height: 290px;
-    /*  background: blue; */
 }
 
 .mat-autocomplete-panel {
