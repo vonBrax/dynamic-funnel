@@ -8,6 +8,8 @@ import { AppMaterialModule } from './app.material.module';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { FormSyncService } from './services/form-sync.service';
 import { EmailValidatorService } from './services/email.validator.service';
+import { MixpanelService } from './services/mixpanel.service';
+import { DataService } from './services/data.service';
 import { Utils } from './models/utils';
 import { HtmlPipe } from './models/html.pipe';
 
@@ -59,7 +61,13 @@ import { IntlTelInputComponent } from './components/intl-tel-input/intl-tel-inpu
     ReactiveFormsModule,
     AppMaterialModule
   ],
-  providers: [ FormSyncService, EmailValidatorService, Utils ],
+  providers: [
+    FormSyncService,
+    EmailValidatorService,
+    Utils,
+    MixpanelService,
+    DataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

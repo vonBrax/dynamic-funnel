@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  jsonUrl: 'https://simple-server-endpoint.herokuapp.com/api/get'
+  ipInfoUrl: 'https://www.qunomedical.com/api/ipinfo',
+  intlTelMeta: 'https://cdn.rawgit.com/vonBrax/mat-intl-phone-input/v1.1.7/metadata.custom.json'
 };

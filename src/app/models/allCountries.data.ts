@@ -16,6 +16,9 @@
 //    Order (if >1 country with same dial code),
 //    Area codes
 // ]
+
+import { environment } from '../../environments/environment.prod';
+
 export const ALL_COUNTRIES = [
   [
     'Afghanistan (‫افغانستان‬‎)',
@@ -1283,13 +1286,13 @@ export const options = {
   excludeCountries: [],
   formatOnDisplay: true,
   geoIpLookup: null,
-  geoIpJsonpUrl: 'https://www.qunomedical.com/api/ipinfo',
+  geoIpJsonpUrl: environment.ipInfoUrl,
   hiddenInput: '',
   initialCountry: 'auto',
   nationalMode: true,
   onlyCountries: [],
   placeholderNumberType: 'MOBILE',
-  preferredCountries: ['gb', 'ie', 'us', 'ca'],
+  preferredCountries: ['de', 'at', 'ch'],
   separateDialCode: false,
   utilsScript: true
 };

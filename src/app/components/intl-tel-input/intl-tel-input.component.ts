@@ -17,13 +17,13 @@ import { DataService } from '../../services/data.service';
 import { Utils } from '../../models/utils';
 import { ALL_COUNTRIES, regionlessNanpNumbers, options } from '../../models/allCountries.data';
 import { Country, IpInfoCallback } from '../../models/country.class';
+import { environment } from '../../../environments/environment.prod';
 import { IntlTelInputUtils } from '../../models/intl-tel.utils';
 
 @Component({
   selector: 'app-intl-tel-input',
   templateUrl: './intl-tel-input.component.html',
   styleUrls: ['./intl-tel-input.component.css'],
-  providers: [DataService]
 })
 export class IntlTelInputComponent implements OnInit {
 
@@ -118,7 +118,7 @@ export class IntlTelInputComponent implements OnInit {
     if (options.utilsScript) {
       this.intlTelInputUtils = new IntlTelInputUtils();
       this.dataService
-        .getJson('https://cdn.rawgit.com/vonBrax/mat-intl-phone-input/v1.0.24/metadata.custom.json')
+        .getJson(environment.intlTelMeta)
         .then(data => {
           this.intlTelInputUtils.setCustomMetadata(data);
           this._updatePlaceholder();
@@ -615,46 +615,36 @@ export class IntlTelInputComponent implements OnInit {
     this.phoneNumberControl.setValue(number);
   }
 
-  private _loadAutoCountry() {
-    // PS: Removing the callback parameter from here since it doesn't
-    // seem to work (we just subscribe to the observable instead and
-    // call the apropriate method when it arrives)
-    const url = options.geoIpJsonpUrl;
-    this.dataService.getJsonp(url)
-    .then(value => this.handleAutoCountry(value))
-    .catch(e =>  {
-      const country = this.preferredCountries.length ? this.preferredCountries[0].iso2 :
-        this.countries[0].iso2;
-      // this.setCountry(this.preferredCountries.length ? this.preferredCountries[0].iso2 : this.countries[0].iso2)
-      this.handleAutoCountry({ip: '', country });
-    });
+  private _loadAutoCountry(): void {
+    if (this.dataService.userCountry === 'us') {
+      this.handleAutoCountry(this.dataService.userCountry);
+    } else {
+      this.dataService.ipInfo$.subscribe(response => {
+        if ( response && response.country) {
+          this.handleAutoCountry(response.country);
+        } else if (response) {
+           // In case something goes wrong with the request, set a default country
+          const country = this.preferredCountries.length ? this.preferredCountries[0].iso2 : this.countries[0].iso2;
+          this.handleAutoCountry(country);
+        }
+      });
+    }
   }
 
-  protected handleAutoCountry(data: IpInfoCallback ) {
+  protected handleAutoCountry(country: string ): void {
     if (options.initialCountry === 'auto') {
       // we must set this even if there is an initial val in the input:
       // in case the initial val is invalid and they delete it - they should see their auto country
-
+      this.defaultCountry = country;
         // if there's no initial value in the input, then update the flag
-        // if (!this.phoneNumberControl.value) {
-        //   this.setCountry(this.defaultCountry);
-        // } else {
-        //   this._updateFlagFromNumber(this.phoneNumberControl.value);
-        // }
-
-        this.defaultCountry = data.country;
-
-        if (!this.countryControl.value || this.countryControl.invalid) {
+        if ( !this.countryControl.value || this.countryControl.invalid) {
           this.setCountry(this.defaultCountry);
         } else {
           this.setCountry(this.countryControl.value.iso2);
         }
-        // if (!this.countryControl.value.name || !this.countryControl.value.iso2 || !this.countryControl.value.dialCode) {
-        //   this.defaultCountry = data.country.toLowerCase();
-        //   this.setCountry(this.defaultCountry);
-        // }
     }
   }
+
 
    /********************
    *  PUBLIC METHODS

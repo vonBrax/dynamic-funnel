@@ -19,8 +19,7 @@ declare var lp;
   styleUrls: ['./form-parent.component.css'],
   providers: [
     Location,
-    {provide: LocationStrategy, useClass: PathLocationStrategy},
-    MixpanelService
+    {provide: LocationStrategy, useClass: PathLocationStrategy}
   ]
 })
 export class FormParentComponent implements OnInit, OnDestroy {

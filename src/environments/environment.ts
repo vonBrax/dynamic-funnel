@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  jsonUrl: './assets/bariatric.json'
+  ipInfoUrl: 'https://www.qunomedical.com/api/ipinfo',
+  intlTelMeta: 'https://cdn.rawgit.com/vonBrax/mat-intl-phone-input/v1.1.7/metadata.custom.json'
 };

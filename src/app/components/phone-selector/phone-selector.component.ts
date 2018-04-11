@@ -7,7 +7,7 @@ import { CountryList } from '../../models/phone-selector';
   styleUrls: ['./phone-selector.component.css']
 })
 export class PhoneSelectorComponent implements OnInit {
-  isActive: boolean = false;
+  isActive = false;
   countryList: any[];
   constructor() { }
 
