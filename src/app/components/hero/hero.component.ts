@@ -1,3 +1,4 @@
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { FormSyncService } from '../../services/form-sync.service';
 import { bariatric } from '../../models/bariatric';
@@ -9,29 +10,46 @@ import { bariatric } from '../../models/bariatric';
 })
 export class HeroComponent implements OnInit {
 
-  hasTopForm = false;
-  topFormData: any;
-  heroStrings: any;
+  formGroup = this.fb.group({});
 
-  constructor(private formSyncService: FormSyncService ) { }
+  hasTopForm = false;
+  bmi: any;
+  heroStrings: any;
+  // for bmi component, keep state between steps
+  temp_controls = {
+    ft: new FormControl('', [Validators.required]),
+    in: new FormControl('', [Validators.required]),
+    st: new FormControl('', [Validators.required]),
+    lbs: new FormControl('', [Validators.required])
+  };
+
+  constructor(private formSyncService: FormSyncService, private fb: FormBuilder ) { }
 
   ngOnInit() {
-    bariatric.forEach(step => {
-      if (step.hero_banner) {
-        this.heroStrings = step.hero_banner;
-
-        this.hasTopForm = step.hero_banner.funnel ? true : false;
-        this.topFormData = step.hero_banner.funnel;
-
-      }
-      /*  if( step.type === 'form_hero' ) {
-        this.hasTopForm = true;
-        this.topFormData = step;
-      } */
-    });
+    const hero = bariatric.find(i => i.hero_banner);
+    const bmi = bariatric.find(i => i.name === 'anthropometry');
+    if (hero) {
+      this.heroStrings = hero.hero_banner;
+    }
+    if (bmi) {
+      this.hasTopForm = true;
+      this.bmi = bmi;
+    }
   }
+
+  addControl(step: any): void {
+    this.formGroup.addControl(step.name, step.control);
+  }
+
 
   goToFirstStep() {
     this.formSyncService.dataFlow.next('go to first step');
+  }
+
+  onBmiReady(val) {
+    if (val) {
+      this.formSyncService.dataFlow.next(val);
+    }
+    this.goToFirstStep();
   }
 }

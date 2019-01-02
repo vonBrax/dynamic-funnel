@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
@@ -24,7 +24,7 @@ declare var lp;
 })
 export class FormParentComponent implements OnInit, OnDestroy {
 
-  funnelName = 'DE.Bariatrics:1.2';
+  funnelName = 'EN.Bariatrics:1.4';
   funnelData: any;
   formParent: FormGroup;
   activeStep = 1;
@@ -39,6 +39,14 @@ export class FormParentComponent implements OnInit, OnDestroy {
   hasTopForm = false;
   topFormData: any;
 
+  // for bmi component, keep state between steps
+  temp_controls = {
+    ft: new FormControl('', [Validators.required]),
+    in: new FormControl('', [Validators.required]),
+    st: new FormControl('', [Validators.required]),
+    lbs: new FormControl('', [Validators.required])
+  };
+
   // To deal with observable unsubscriptions
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -48,6 +56,10 @@ export class FormParentComponent implements OnInit, OnDestroy {
   ubFormContainer: ElementRef;
   @ViewChild('firstStep')
   firstStep: ElementRef;
+
+  get bmi() {
+    return this.formParent.get('anthropometry.additional_info_bmi').value;
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -67,6 +79,9 @@ export class FormParentComponent implements OnInit, OnDestroy {
       if (step.field === 'step' ) {
         this.stepsArr.push(step.name);
         this.lastStep++;
+        if (step.name === 'disclaimer') {
+          this.addControl({name: step.name, control: new FormControl('', Validators[step.validators] )});
+        }
       }
     });
 
@@ -80,7 +95,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
           this.goToFirstStep();
           return;
         }
-        this.formParent.get('anthropometry').setValue(val);
+        this.formParent.get('anthropometry').patchValue(val);
       });
     });
     this.onChanges();
@@ -94,11 +109,14 @@ export class FormParentComponent implements OnInit, OnDestroy {
   createHiddenFields(form: any): void {
     // Create hidden fields for available steps
     this.funnelData.forEach(step => {
-      if (!step.field || step.field !== 'step') { return; }
+      if (!step.field || step.field !== 'step' || step.type === 'info') { return; }
       if (step.question) {
        this.createSingleField(step.name, form);
-      } else if (step.questions) {
-        step.questions.forEach(question => {
+      } else if (step.questions || step.fields) {
+        const key = step.questions
+          ? 'questions'
+          : 'fields';
+        step[key].forEach(question => {
           this.createSingleField(question.name, form, step.name);
 
           // Hardcoded fix to create additional fields
@@ -116,7 +134,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('jlp')) { this.createSingleField('jlp', form, null, localStorage.getItem('jlp')); }
   }
 
-  createSingleField(name: any, form: any, path?: any, defaultValue?: any): void {
+  createSingleField(name: any, form: any, path?: any, defaultValue?: any): HTMLInputElement {
     if (!name || !form) {
       return;
     }
@@ -137,6 +155,7 @@ export class FormParentComponent implements OnInit, OnDestroy {
     if (defaultValue) {
       el.value = defaultValue;
     }
+    return el;
   }
 
   getUnbounceForm(): void {
@@ -145,6 +164,13 @@ export class FormParentComponent implements OnInit, OnDestroy {
       this.createHiddenFields(this.ubForm);
     } else {
       /* console.log('Form not found...'); */
+      // this.ubForm = document.createElement('form');
+      // this.ubForm.id = 'myForm';
+      // const div = document.createElement('div');
+      // div.setAttribute('class', 'fields');
+      // this.ubFormContainer.nativeElement.appendChild(this.ubForm);
+      // this.ubForm.appendChild(div);
+      // this.createHiddenFields(this.ubForm);
     }
   }
 
@@ -180,17 +206,6 @@ export class FormParentComponent implements OnInit, OnDestroy {
   }
 
   initURL(): void {
-    /* let url = this.location.path();
-    let hasParams = /\?/.test( url );
-
-    if( /step=/.test(url) ) {
-      url = url.replace(/(\?|\&)?step=[^&]+/, '');
-      if(url.startsWith('/&') || url.startsWith('&') ) {
-        url = url.replace('&', '?');
-      }
-      this.location.replaceState(url);
-    } */
-
     let url = this.location.path();
     const hasParams = /\?/.test( url );
     const first = this.activeStep;
@@ -204,8 +219,6 @@ export class FormParentComponent implements OnInit, OnDestroy {
     }
     this.location.replaceState(url);
 
-
-
     if (!hasParams) {
       this.createSingleField('error', this.ubForm, null, 'No parameters found in the url');
       return;
@@ -217,8 +230,6 @@ export class FormParentComponent implements OnInit, OnDestroy {
       this.createSingleField(_pairs[0], this.ubForm, null, _pairs[1]);
     });
     this.createSingleField('jlp', this.ubForm, url);
-
-
   }
 
   moveToNextStep(): void {
@@ -281,10 +292,18 @@ export class FormParentComponent implements OnInit, OnDestroy {
     }
   }
 
+  addAdditionalInfo(element: HTMLInputElement, key: string, value: string): void {
+    const separator = element.value ? ',\n' : '';
+    element.value += `${separator}${key}: "${value}"`;
+  }
+
   prepareUnbounceForm(form: FormGroup): void {
     const fieldsArr = Array.prototype.slice.call(this.ubForm.querySelectorAll('.fields input'));
+    const additionalInfoField = this.ubForm.querySelector('#additional_info') || this.createSingleField('additional_info', this.ubForm);
+
     fieldsArr.forEach(field => {
       const path = field.dataset.path ? field.dataset.path + '.' + field.name : field.name;
+      const isAdditionalInfo = /additional_info/.test(path);
 
       // Hardcoded fix to fill values for additional fields required by
       // intl-tel-input component
@@ -299,8 +318,27 @@ export class FormParentComponent implements OnInit, OnDestroy {
         case 'intl_phone':
           field.value = form.get('personal_information.hiddenPhoneNumberControl').value;
           break;
+        case 'additional_info_height_unit':
+          this.addAdditionalInfo(additionalInfoField, 'height_unit', 'cm');
+          // field.value = 'cm';
+          field.remove();
+          break;
+        case 'additional_info_weight_unit':
+          this.addAdditionalInfo(additionalInfoField, 'weight_unit', 'kg');
+          // field.value = 'kg';
+          field.remove();
+          break;
+        case 'step':
+          field.remove();
+          break;
         default:
-          field.value = form.get(path) ? form.get(path).value : field.value;
+          const value = form.get(path) ? form.get(path).value : field.value;
+          if (isAdditionalInfo) {
+            this.addAdditionalInfo(additionalInfoField, field.name.replace('additional_info_', ''), value);
+            field.remove();
+          } else {
+            field.value = value;
+          }
       }
     });
   }

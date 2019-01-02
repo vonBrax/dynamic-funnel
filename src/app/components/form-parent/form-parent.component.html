@@ -37,13 +37,52 @@
                 <mat-step  *ngIf="step.field === 'step'" [stepControl]="getStep(step.name)">
                     
                     <ng-template matStepLabel>{{step.question || step.label}}</ng-template>
-                    <app-form-step [parentGroup]="formParent" [data]="step" (addControlEvent)="addControl($event)" (selectOpenedOrClosedEvent)="setSelectStatus($event)"></app-form-step>
+                    
+                    <!-- [childGroup]="formGroup.get(step.name)" -->
+                    <app-bmi
+                      *ngIf="step.name === 'anthropometry'"
+                      [childGroup]="formParent"
+                      [fields]="step.fields"
+                      [temp_controls]="temp_controls"
+                      [button]="step.button"
+                      (bmiReady)="moveToNextStep()"
+                      (addControlEvent)="addControl($event)"
+                    >
+                    </app-bmi>
+
+                    <div
+                      *ngIf="step.name === 'disclaimer'"
+                      class="info"
+                    >
+                        <ng-container *ngIf="bmi">
+                            <p *ngFor="let p of step.info.split('\n')" [innerHTML]="p.replace('%s', bmi) | html"></p>
+                        </ng-container>
+                        <p *ngIf="!bmi">{{ step.info }}/</p>
+                        <input [formControlName]="step.name" type="radio" value="true" style="height: 1px; visibility: hidden; opacity: 0; pointer-events: none;" #disclaimer/>
+                        <button
+                            mat-raised-button
+                            type="button"
+                            class="radio-click-btn btn-full-width"
+                            color="primary"
+                            aria-label="Go to the next step"
+                            (click)="disclaimer.checked ? moveToNextStep() : disclaimer.click()"
+                            >{{ step.button }}
+                        </button>
+                    </div>
+                    <app-form-step
+                      *ngIf="step.name !== 'anthropometry'"
+                      [parentGroup]="formParent"
+                      [data]="step"
+                      (addControlEvent)="addControl($event)"
+                      (selectOpenedOrClosedEvent)="setSelectStatus($event)"
+                    >
+                    </app-form-step>
                     
                 </mat-step>
                 </ng-container>
 
             </mat-vertical-stepper>
-                  <!-- <pre>{{formParent.value | json }}</pre> -->       
+                   <!-- <pre>{{formParent.value | json }}</pre>  -->
         </div>
     </form>
     <div #ubFormContainer [attr.id]="'ubFormContainer'"></div>

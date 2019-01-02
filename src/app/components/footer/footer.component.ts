@@ -9,14 +9,14 @@ import { bariatric } from '../../models/bariatric';
 })
 export class FooterComponent implements OnInit {
 
-  year:Number = new Date().getFullYear();
+  year: Number = new Date().getFullYear();
   footer: any;
 
   constructor() { }
 
   ngOnInit() {
-    let footerIndex = bariatric.findIndex(item => item.footer);
-    this.footer = footerIndex != -1 ? bariatric[footerIndex].footer : null;
+    const footerIndex = bariatric.findIndex(item => item.footer);
+    this.footer = footerIndex !== -1 ? bariatric[footerIndex].footer : null;
   }
 
 }

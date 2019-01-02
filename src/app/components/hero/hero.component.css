@@ -29,19 +29,53 @@
 .hero__values h1 {
     margin-bottom: 1em;
     font-size: 2em;
+    font-weight: bold;
 }
 
-.hero__values h2 {
+.hero__values h4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: .5em;
+}
+
+.hero__values__price {
+    /* color: #5cb85c; */
+    color: #fff;
+    font-size: 2em;
+}
+
+.hero__values h4.hero__values__sub {
     font-size: 1.5em;
+    margin-top: 1em;
+    margin-bottom: 0;
 }
 
 .hero__value {
+    display: inline-block;
     margin: 1em 0;
+    text-align: left;
 }
 
-app-form-hero {
-    flex: 0 0 350px;
+.hero__value__item {
+    margin: 0.25em 0;
 }
+
+.hero__value__item strong {
+    margin-left: .25em;
+    vertical-align: middle;
+}
+
+.hero-form {
+    flex: 0 0 350px;
+    overflow: hidden;
+}
+
+/* app-form-hero {
+    flex: 0 0 350px;
+} */
 
 mat-icon {
     vertical-align: middle;
@@ -61,16 +95,20 @@ mat-icon {
         text-align: left;
     }
     .hero__values h1 {
-        margin-bottom: 1em;
-        font-size: 3em;
+        margin-bottom: .5em;
+        /* font-size: 3em; */
     }
 
     .hero__values h2 {
         font-size: 2em;
     }
 
+    .hero__values h4 {
+        justify-content: flex-start;
+    }
+
     .hero__value {
-        margin: 1.5em 0;
+        margin: 0.5em 0 1.5em;
     }
     .padding-left--large {
         padding-left: 2em;
@@ -78,7 +116,10 @@ mat-icon {
 }
 
 @media (max-width: 803px) {
-    app-form-hero {
+    /* app-form-hero {
+        display: none;
+    } */
+    .hero-form {
         display: none;
     }
 }

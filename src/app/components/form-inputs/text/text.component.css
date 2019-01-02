@@ -1,3 +1,7 @@
 .input-full-width {
     width: 100%;
 }
+mat-hint {
+    color: #000;
+    font-weight: bold;
+}

@@ -3,14 +3,18 @@
     
     <div class="hero__values">
       <h1>{{heroStrings.headline}}</h1>
-        
-      <div class="hero__value" *ngFor="let value of heroStrings.values">
-        <h2>
-           <mat-icon>check</mat-icon>
-          <strong>{{value.title}}</strong>
-        </h2>
-        <p class="padding-left--large">{{value.description}}</p>
-      </div>
+      <h4>From&nbsp;<span class="hero__values__price">€ 5490,-</span></h4>
+      <span>All-inclusive Package</span>
+      <h4 class="hero__values__sub">KCM Clinic, complete package includes:</h4>
+      <ul class="hero__value">
+        <ng-container *ngFor="let value of heroStrings.values">
+          <li class="hero__value__item">
+            <mat-icon>check_box</mat-icon>
+            <strong>{{value.title}}</strong>
+          </li>
+          <p *ngIf="value.description" class="padding-left--large">{{value.description}}</p>
+        </ng-container>
+      </ul>
       
       <!-- <div class="hero__value">
         <h2>
@@ -27,14 +31,38 @@
       </h2>
         <p class="padding-left--large">We'll guide you every step of the way</p>
       </div> -->
-
-      <button mat-raised-button class="show--mobile marginTopNormal" color="primary" type="button" (click)="goToFirstStep()">{{heroStrings.button_mobile}}</button>
-
+      <div>
+        <button
+          mat-raised-button
+          class="show--mobile marginTopNormal"
+          color="primary"
+          type="button"
+          (click)="goToFirstStep()"
+        >
+          {{heroStrings.button_mobile}}
+      </button>
+      </div>
       
     </div>
 
       <ng-container *ngIf="hasTopForm">
-          <app-form-hero [data]="topFormData"></app-form-hero>
+          <!-- <app-form-hero [data]="topFormData"></app-form-hero> -->
+          <mat-card class="hero-form">
+            <mat-card-title>
+              <p>{{ bmi.label }}</p>
+            </mat-card-title>
+            <mat-card-content style="padding: 0 1em;">
+              <app-bmi
+                [childGroup]="formGroup"
+                [fields]="bmi.fields"
+                [button]="bmi.button"
+                [temp_controls]="temp_controls"
+                [skipValidation]="true"
+                (addControlEvent)="addControl($event)"
+                (bmiReady)="onBmiReady($event)"
+              ></app-bmi>
+            </mat-card-content>
+          </mat-card>
       </ng-container>
 
   </div>

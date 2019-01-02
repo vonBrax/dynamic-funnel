@@ -26,6 +26,10 @@ h2 {
     margin-top: 1em;
 }
 
+.btn-full-width {
+    width: 100%;
+}
+
 app-form-hero {
     max-width: 350px;
     margin-bottom: 2em;
@@ -54,6 +58,18 @@ app-form-hero {
 
 .title span {
     font-size: 1.5em;
+}
+
+.info {
+    max-width: 350px;
+}
+
+.info > p {
+    margin: 1em 0
+}
+
+:host /deep/ .info > p > span {
+    font-size: 2em;
 }
 
 :host /deep/ .mat-step-icon,

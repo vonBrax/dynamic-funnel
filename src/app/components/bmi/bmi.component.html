@@ -1,0 +1,118 @@
+<section [formGroup]="thisGroup" class="wrapper juno-alt-theme">
+  <ng-container *ngFor="let item of dimensions | keyvalue">
+    <h4 *ngIf="item.key !== 'bmi'" [innerText]="'My ' + item.key" [id]="'label_' + item.key"></h4>
+    <div class="input-wrap input-wrap--right-align input-wrap--{{item.key}}" (click)="$event.stopPropagation()" >
+      
+      <ng-container *ngFor="let field of item.value.controls">
+        <ng-container *ngIf="field.type !== 'button-toggle' && field.type !== 'hidden'">
+          <div
+            *ngIf="item.value.visibility === 'metric'"
+            class="input-wrap__metric"
+            @leftAnimation
+          >
+            <mat-form-field
+              color="primary"
+              appearance="outline"
+              [hideRequiredMarker]="true"
+              [attr.aria-labelledby]="'label_' + item.key"
+              >
+              <!-- <mat-label [innerText]="field.placeholder"></mat-label> -->
+               <mat-label [innerText]="item.value.metric"></mat-label> 
+              <input
+                matInput
+                [type]="field.type"
+                [formControlName]="field.name"
+                autocomplete="off"
+                min="0"
+              />
+              <!-- <span matSuffix>{{item.value.metric}}</span>   -->
+              <mat-error>{{ field.error_message }}</mat-error>
+            </mat-form-field>
+          </div>
+          <div
+            *ngIf="item.value.visibility === 'imperial'"
+            class="input-wrap__imperial"
+            @rightAnimation
+            [convertUnits]="item.key"
+            (valueChanged)="onChange($event)"
+          >
+            <mat-form-field
+              color="primary"
+              appearance="outline"
+              [hideRequiredMarker]="true"
+              >
+               <!-- <mat-label [innerText]="field.placeholder"></mat-label>  -->
+              <!-- (change)="onChange($event, item.key, item.value.imperial[0])" -->
+               <!-- <mat-label [innerText]="item.value.imperial[0]"></mat-label> -->
+               <mat-label [innerText]="names[item.value.imperial[0]]"></mat-label>
+              <input
+                matInput
+                [type]="field.type"
+                autocomplete="off"
+                [convertUnitsInput]="item.value.imperial[0]"
+                min="0"
+                required
+                [formControl]="temp_controls[item.value.imperial[0]]"
+              />
+              <!--  -->
+              <!-- <span matSuffix>{{item.value.imperial[0]}}</span> -->
+            </mat-form-field>
+            <mat-form-field
+              color="primary"
+              appearance="outline"
+              [hideRequiredMarker]="true"
+            >
+               <!-- <mat-label [innerText]="field.placeholder"></mat-label>  -->
+              <!-- (change)="onChange($event, item.key, item.value.imperial[1])" -->
+               <mat-label [innerText]="names[item.value.imperial[1]]"></mat-label> 
+              <input
+                matInput
+                [type]="field.type"
+                autocomplete="off"
+                [convertUnitsInput]="item.value.imperial[1]"
+                min="0"
+                required
+                [formControl]="temp_controls[item.value.imperial[1]]"
+              />
+              <!--  -->
+              <!-- <span matSuffix>{{item.value.imperial[1]}}</span> -->
+            </mat-form-field>
+            <mat-error class="custom-error">{{ field.error_message }}</mat-error>
+          </div>
+        </ng-container>
+
+        <mat-button-toggle-group
+          *ngIf="field.type === 'button-toggle'"
+          class="input-wrap__toggle-group"
+          [name]="field.name"
+          [formControlName]="field.name"
+          (click)="toggleVisibility($event.target, item.key)"
+        >
+          <mat-button-toggle
+            *ngFor="let btn of field.values"
+            [value]="btn"
+          >
+            {{ btn }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+
+        <input
+          *ngIf="field.type === 'hidden'"
+          type="hidden"
+          [formControlName]="field.name"
+        />
+
+      </ng-container>
+    </div>
+</ng-container>
+
+  <button
+    mat-raised-button
+    type="button"
+    class="btn-bmi"
+    color="primary"
+    (click)="calculateBMI()"
+  >
+    {{ button }}
+  </button>
+</section>

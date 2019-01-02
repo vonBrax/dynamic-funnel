@@ -1,0 +1,104 @@
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
+.wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-top: 2em;
+  height: 100%;
+  width: 100%;
+  max-width: 350px;
+
+}
+
+.input-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-wrap--height,
+.input-wrap--weight {
+   padding-bottom: .75em;
+}
+
+.input-wrap__metric,
+.input-wrap__imperial {
+  margin-right: .5em;
+  width: 65%;
+  /* overflow: hidden; */
+  padding: .5em 0;
+}
+
+
+.input-wrap__metric > mat-form-field {
+  /* transform-origin: left; */
+  width: 100%;
+}
+
+.input-wrap__imperial {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.input-wrap__imperial > mat-form-field {
+  /* transform-origin: right; */
+  width: 100%;
+}
+
+:host /deep/ .input-wrap .mat-form-field-wrapper {
+  transform: translateY(12px)
+}
+
+.input-wrap__imperial > mat-form-field {
+  max-width: 49%;
+}
+
+.input-wrap__imperial > mat-form-field,
+.input-wrap__toggle-group > mat-button-toggle {
+  flex: 1;
+}
+
+.input-wrap__toggle-group {
+  flex: 0 0 100px;
+}
+
+:host /deep/ .input-wrap__imperial .mat-form-field-infix {
+  width: initial;
+}
+
+.input-wrap--right-align input,
+.input-wrap--right-align input {
+  text-align: right;
+  padding-right: 4px
+}
+
+.input-wrap--right-align input::-webkit-outer-spin-button,
+.input-wrap--right-align input::-webkit-inner-spin-button {
+  display: none;
+
+}
+
+.custom-error {
+  font-size: 75%;
+  margin-top: 0.67em;
+  padding: 0 1em;
+  position: absolute;
+  top: calc(100% - 1.79166667em);
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.ng-touched.mat-form-field-invalid.ng-invalid + .custom-error,
+.ng-touched.mat-form-field-invalid.ng-invalid + mat-form-field + .custom-error {
+  transform: translateY(0);
+    transition: transform 250ms ease-out, opacity 200ms ease-out;
+  opacity: 1;
+}
+
+.btn-bmi {
+  padding-top: .5em;
+  padding-bottom: .5em;
+}

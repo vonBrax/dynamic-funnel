@@ -1,12 +1,15 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { EmailValidator, FormGroup, Validators } from '@angular/forms';
+
+import { EmailValidatorService } from '../../../services/email.validator.service';
 import { Utils } from '../../../models/utils';
 
 
 @Component({
   selector: 'app-text',
   templateUrl: './text.component.html',
-  styleUrls: ['./text.component.css']
+  styleUrls: ['./text.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TextComponent implements OnInit {
 
@@ -18,8 +21,9 @@ export class TextComponent implements OnInit {
   addControlEvent: EventEmitter<any> = new EventEmitter();
 
   lastEmailValue: string;
+  warningMessage: string;
 
-  constructor(private utils: Utils) { }
+  constructor(private utils: Utils, private emailValidator: EmailValidatorService ) { }
 
   ngOnInit() {
     this.addControlEvent.emit({
@@ -27,6 +31,7 @@ export class TextComponent implements OnInit {
       control:  this.utils.createSingleControl('', this.data.validators, 'blur' ),
       parent: true
     });
+    this.emailValidator.emailWarning$.subscribe(message => this.warningMessage = message);
   }
 
   /**
