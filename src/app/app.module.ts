@@ -32,6 +32,8 @@ import { HeroComponent } from './components/hero/hero.component';
 import { FormHeroComponent } from './components/form-hero/form-hero.component';
 import { IntlTelInputComponent } from './components/intl-tel-input/intl-tel-input.component';
 
+import { BmiModule } from './components/bmi/bmi.module';
+
 @NgModule({
   declarations: [
     ClickOutsideDirective,
@@ -59,7 +61,8 @@ import { IntlTelInputComponent } from './components/intl-tel-input/intl-tel-inpu
     HttpClientModule,
     HttpClientJsonpModule,
     ReactiveFormsModule,
-    AppMaterialModule
+    AppMaterialModule,
+    BmiModule
   ],
   providers: [
     FormSyncService,

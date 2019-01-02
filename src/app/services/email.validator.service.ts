@@ -1,7 +1,35 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
 
 import { DOMAINS } from '../models/mailcheck';
+
+function isValid(email: string): boolean {
+    // Return if there non printable chars
+    if (/\s/g.test(email)) {
+        return false;
+    }
+    const parts = email.split('@');
+    // Return if more than one "@" or if one of the parts is empty
+    if (parts.length !== 2 || !parts[0] || !parts[1]) {
+        return false;
+    }
+    const domain = parts[1];
+    // Return if no top level domain specified
+    if (domain.indexOf('.') === -1) {
+        return false;
+    }
+    const sd = domain.split('.');
+    // Check if every subdomain passes the conditions below
+    return sd.every( (sub, i) =>
+    (
+        (i === 0 && sub.length > 0) || sub.length > 1) // At least 2 chars on each subdomain (first can have 1 only)
+        && !/[^A-Za-z0-9\-]/g.test(sub) // Test if only valid chars
+        && !sub.startsWith('-') // Subdomains can not start or end with "-"
+        && !sub.endsWith('-')
+        && ( i !== sd.length - 1 || /[^0-9]/g.test(sub) ) // Top level domain can not be only digits
+    );
+}
 
 @Injectable()
 export class EmailValidatorService {
@@ -12,42 +40,53 @@ export class EmailValidatorService {
     domains: string[] = DOMAINS.default;
     secondLevelDomains: string[] = DOMAINS.defaultSecondLevel;
     topLevelDomains: string[] = DOMAINS.defaultTopLevel;
-
     lastEmailChecked: string;
+    emailWarning$: Subject<string> = new Subject<string>();
 
-    // INVALID_1 = 'Email address must contain one "@"';
-    // INVALID_2 = 'Please enter a valid email address';
-    // INVALID_3 = 'Did you mean ';
+    INVALID_1 = 'Email address must contain one "@"';
+    INVALID_2 = 'Please enter a valid email address';
+    INVALID_3 = 'Did you mean: ';
 
     /*
     * GERMAN EMAIL ERROR MESSAGES (Uncomment to switch)
     */
-    INVALID_1 = 'Emailadresse muss ein @ enthalten';
-    INVALID_2 = 'Bitte geben Sie eine gültige Emailadresse an';
-    INVALID_3 = 'Meinten Sie ';
+    // INVALID_1 = 'Emailadresse muss ein @ enthalten';
+    // INVALID_2 = 'Bitte geben Sie eine gültige Emailadresse an';
+    // INVALID_3 = 'Meinten Sie: ';
 
     public validate() {
         return (ctrl: AbstractControl): {[key: string]: any} => {
             if (!ctrl.value) {
                 return null;
             } else {
-                return this.run(ctrl.value);
+                const state = this.run(ctrl.value);
+                if (state && state.warning) {
+                    this.emailWarning$.next(state.message);
+                    return null;
+                } else {
+                    this.emailWarning$.next(null);
+                    return state;
+                }
             }
         };
     }
 
     private run(email: string) {
         if (email.indexOf('@') === -1) {
-            return {address: '', domain: '', full: email, message: this.INVALID_1 };
-        } else if ( email.indexOf('@') < 1 || email.indexOf('@') === email.length - 1) {
-            return {address: email.replace('@', ''), domain: '', full: email, message: this.INVALID_2 };
-        } else if (this.lastEmailChecked && this.lastEmailChecked === email) {
-            return null;
-        } else {
+            return {address: '', domain: '', full: email, message: this.INVALID_1, warning: false }; // this.INVALID_1 };
+        }
+        if (!isValid(email.trim())) {
+            // this.INVALID_2 };
+            return {address: email.replace('@', ''), domain: '', full: email, message: this.INVALID_2, warning: false };
+        }
+        // if (this.lastEmailChecked && this.lastEmailChecked === email) {
+        //     return null;
+        // } else {
             this.lastEmailChecked = email;
             const result = this.suggest(this.encodeEmail(email.toLowerCase()));
-            return (result && result.message) ? { message: result.message } : null;
-        }
+            //  ? suggestedCallback(result) : emptyCallback();
+            return (result && result.message) ? { message: result.message, warning: true } : null; 
+        // }
     }
 
     private suggest(email: string) {

@@ -7,7 +7,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
-$juno-app-primary: mat-palette($mat-yellow, A700, 500, A700);
+// $juno-app-primary: mat-palette($mat-yellow, A700, 500, A700);
+$juno-app-primary: mat-palette($mat-amber);
 $juno-app-accent: mat-palette($mat-grey);
 // The warn palette is optional (defaults to red).
 $juno-app-warn: mat-palette($mat-red);
