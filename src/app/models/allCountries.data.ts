@@ -1277,6 +1277,8 @@ export const regionlessNanpNumbers = [
   '800', '822', '833', '844', '855', '866', '877', '880', '881', '882', '883', '884', '885', '886', '887', '888', '889'
 ];
 
+//  preferredCountries: ['gb', 'ie', 'us', 'ca'],
+//  preferredCountries: ['de', 'at', 'ch'],
 export const options = {
   allowDropdown: true,
   autoHideDialCode: true,
@@ -1292,7 +1294,7 @@ export const options = {
   nationalMode: true,
   onlyCountries: [],
   placeholderNumberType: 'MOBILE',
-  preferredCountries: ['de', 'at', 'ch'],
+  preferredCountries: ['gb', 'ie', 'us', 'ca'],
   separateDialCode: false,
   utilsScript: true
 };

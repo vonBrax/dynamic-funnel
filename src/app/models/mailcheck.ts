@@ -118,6 +118,7 @@ export const DOMAINS = {
         'o2online.de',
         'bbsyd.dk',
         'protonmail.com',
+        'protonmail.ch',
         'lyse.net',
         'net.hr',
         'cpl.ie',

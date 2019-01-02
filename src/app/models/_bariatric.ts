@@ -1,5 +1,4 @@
-
- export const bariatric: any =
+export const bariatric: any =
  [
     /* {
         "name": "anthropometry",
